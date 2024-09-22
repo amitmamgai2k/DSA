@@ -41,17 +41,10 @@ public:
             return -1; // or throw an exception
         }
     }
-
-    bool isEmpty() {
-        return top == -1;
-    }
-
-    int currentSize() {
-        return top + 1;
-    }
-};
-
+}
 int main() {
+
+
     Stack st(5);
     st.push(22);
     st.push(43);
