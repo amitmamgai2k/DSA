@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Define the structure for a node in the binary tree
+// Define the structure for a node in the binary search tree
 struct Node {
     int data;
     Node* left;
@@ -15,62 +15,81 @@ struct Node {
     }
 };
 
-// Function to build the binary tree recursively
-Node* buildTree() {
-    int value;
-    cout << "Enter data (-1 for no node): ";
-    cin >> value;
-
-    // Base case: return NULL if the input is -1 (no node)
-    if (value == -1) {
-        return nullptr;
+// Function to insert a new value into the Binary Search Tree (BST)
+Node* insert(Node* root, int value) {
+    // If the tree is empty, create a new node
+    if (root == nullptr) {
+        return new Node(value);
     }
 
-    // Create a new node with the given value
-    Node* root = new Node(value);
+    // If the value is smaller than the root's data, insert it into the left subtree
+    if (value < root->data) {
+        root->left = insert(root->left, value);
+    }
+    // If the value is greater than the root's data, insert it into the right subtree
+    else if (value > root->data) {
+        root->right = insert(root->right, value);
+    }
 
-    // Recursively build the left and right subtrees
-    cout << "Enter data for inserting in left of " << value << endl;
-    root->left = buildTree();
-
-    cout << "Enter data for inserting in right of " << value << endl;
-    root->right = buildTree();
-
-    return root;  // Return the built tree
+    return root;  // Return the root pointer after insertion
 }
-void inorder(Node*root){
-    if(root==NULL){
+
+// Function for Inorder traversal (Left, Root, Right)
+void inorder(Node* root) {
+    if (root == nullptr) {
         return;
     }
     inorder(root->left);
-    cout<<root->data<< " ";
+    cout << root->data << " ";
     inorder(root->right);
 }
-void preorder(Node*root){
-    if(root==NULL){
+
+// Function for Preorder traversal (Root, Left, Right)
+void preorder(Node* root) {
+    if (root == nullptr) {
         return;
     }
-    cout<<root->data<< " ";
+    cout << root->data << " ";
     preorder(root->left);
-   
     preorder(root->right);
 }
-void postorder(Node*root){
-    if(root==NULL){
+
+// Function for Postorder traversal (Left, Right, Root)
+void postorder(Node* root) {
+    if (root == nullptr) {
         return;
     }
     postorder(root->left);
     postorder(root->right);
-    cout<<root->data<< " ";
+    cout << root->data << " ";
 }
-
 
 int main() {
-    // Build the tree starting from the root
-    Node* root = buildTree();
-   cout <<" Inorder traversal is:";
-   inorder(root);
-    // The tree has been built successfully
+    Node* root = nullptr;  // Initialize the root of the BST as null
+    int n, value;
+
+    cout << "Enter the number of nodes you want to insert: ";
+    cin >> n;
+
+    // Insert values into the Binary Search Tree
+    for (int i = 0; i < n; ++i) {
+        cout << "Enter value for node " << i + 1 << ": ";
+        cin >> value;
+        root = insert(root, value);
+    }
+
+    // Display the tree using different traversal techniques
+    cout << "Inorder traversal: ";
+    inorder(root);
+    cout << endl;
+
+    cout << "Preorder traversal: ";
+    preorder(root);
+    cout << endl;
+
+    cout << "Postorder traversal: ";
+    postorder(root);
+    cout << endl;
+
     return 0;
 }
-//ssss
