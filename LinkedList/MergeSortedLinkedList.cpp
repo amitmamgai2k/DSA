@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 struct Node {
@@ -7,17 +6,19 @@ struct Node {
     Node* next;
 };
 
-Node* CreateLinkedList(vector<int>& arr) {
-    if (arr.empty()) return nullptr;
-    
+Node* CreateLinkedList(int n) {
+    if (n <= 0) return nullptr;
+
     Node* head = (Node*)malloc(sizeof(Node));
-    head->data = arr[0];
+    cout << "Enter element 1: ";
+    cin >> head->data;
     head->next = nullptr;
     Node* mover = head;
 
-    for (int i = 1; i < arr.size(); i++) {
+    for (int i = 1; i < n; i++) {
         Node* temp = (Node*)malloc(sizeof(Node));
-        temp->data = arr[i];
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> temp->data;
         temp->next = nullptr;
         mover->next = temp;
         mover = temp;
@@ -26,7 +27,7 @@ Node* CreateLinkedList(vector<int>& arr) {
 }
 
 Node* MergeLinkedList(Node* head1, Node* head2) {
-    Node* dummyNode =(Node*)malloc(sizeof(Node));
+    Node* dummyNode = new Node();
     Node* temp = dummyNode;
 
     while (head1 != nullptr && head2 != nullptr) {
@@ -34,11 +35,11 @@ Node* MergeLinkedList(Node* head1, Node* head2) {
             temp->next = head1;
             head1 = head1->next;
         } 
-        else if(head1->data >head2->data) {
+        else if (head1->data > head2->data) {
             temp->next = head2;
             head2 = head2->next;
         }
-        else{
+        else {
             temp->next = head1;
             head1 = head1->next;
             head2 = head2->next;
@@ -74,13 +75,8 @@ int main() {
         return 1;
     }
 
-    vector<int> arr1(n);
-    for (int i = 0; i < n; i++) {
-        cout << "Enter element " << i + 1 << ": ";
-        cin >> arr1[i];
-    }
-    Node* head1 = CreateLinkedList(arr1);
-    cout<<"LinkedList 1: "<<endl;
+    Node* head1 = CreateLinkedList(n);
+    cout << "LinkedList 1: " << endl;
     Display(head1);
 
     cout << "Enter the number of elements in the Linked List 2: ";
@@ -90,21 +86,13 @@ int main() {
         return 1;
     }
 
-    vector<int> arr2(m);
-    for (int i = 0; i < m; i++) {
-        cout << "Enter element " << i + 1 << ": ";
-        cin >> arr2[i];
-    }
-    Node* head2 = CreateLinkedList(arr2);
-     cout<<"LinkedList 2: "<<endl;
+    Node* head2 = CreateLinkedList(m);
+    cout << "LinkedList 2: " << endl;
     Display(head2);
 
     Node* head = MergeLinkedList(head1, head2);
-    cout << "Merged Linked List: "<<endl;
+    cout << "Merged Linked List: " << endl;
     Display(head);
-
-
 
     return 0;
 }
-//sssss

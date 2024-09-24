@@ -8,163 +8,128 @@ struct Node {
     int data;
     Node *next;
 };
+Node*head;
 
-// create CircularLink
-Node*createCircularLinkedList(vector<int> arr) {
-    if (arr.size() == 0) return NULL;
-    Node *head = (Node *)malloc(sizeof(Node));
-    head->data = arr[0];
-    head->next = nullptr;
-    Node *mover = head;
-    for (int i = 1; i < arr.size(); i++) {
-        Node *temp = (Node *)malloc(sizeof(Node));
-        temp->data = arr[i];
+// create LinkedList
+Node *CreateLinkedList(int n) {
+    Node*head = (Node*)malloc(sizeof(Node));
+    cout<<"Enter element 1: ";
+    cin>>head->data;
+    Node*mover = head;
+    for(int i = 1;i<n;i++){
+        Node*temp = (Node*)malloc(sizeof(Node));
+        cout<<"Enter element "<<i+1<<": ";
+        cin>>temp->data;
         temp->next = nullptr;
         mover->next = temp;
-        mover = temp;
+        mover= temp;
     }
-    mover->next = head;
+  return head;
+}
+
+// delete head of the Single Linked List
+Node *deleteHeadOfSingleLL() {
+    if (head == NULL) return NULL;
+    Node *temp = head;
+    head = head->next;
+    free(temp);
     return head;
 }
 
-
-// delete head of the Circular Linked List
-Node *deleteHeadOfCircularLL(Node *head) {
+Node *deleteTailOfSingleLL() {
     if (head == NULL) return NULL;
-      if (head->next == head) {
-        delete head; 
-        return nullptr; 
-    }
-    Node *temp = head;
-    while(temp->next!=head){
-        temp = temp->next;
-    }
-    Node*newHead = head->next;
-    temp->next = newHead;
-    delete head;
-   return newHead;
-
-
-    
-}
-// deleteTail
-
-Node *deleteTailOfCircularLL(Node *head) {
-    if (head == NULL) return NULL;
-
-    if (head->next == NULL) {
+    else if (head->next == NULL) {
         free(head);
         return NULL;
     }
     Node *temp = head;
-    while (temp->next->next != head) {
+    while (temp->next->next != NULL) {
         temp = temp->next;
     }
-    Node*tail = temp->next;
-    temp->next = head;
-    delete tail;
+    free(temp->next);
+    temp->next = nullptr;
     return head;
 }
 
-Node* deleteAfterLocation(Node* head, int value) {
-    if (head == NULL) {
-        // Print error message if the list is empty
+// delete after given Node
+Node* deleteAfterLocation(int value) {
+    if (head == nullptr) {
         cout << "List is empty!" << endl;
-        return NULL;
+        return nullptr;
     }
 
     Node* temp = head;
 
     // Find the node with the specified value
-    do {
-        if (temp->data == value) {
-            break;
-        }
+    while (temp != nullptr && temp->data != value) {
         temp = temp->next;
-    } while (temp != head);
+    }
 
-    // If no node with the specified value was found
+
     if (temp->data != value) {
         cout << "Node with value " << value << " not found." << endl;
         return head;
     }
-
-    // Check if there is a node to delete after the found node
-    if (temp->next == head) {
-        cout << "No node to delete after the node with value " << value << "." << endl;
+    if (temp->next == nullptr) {
+        cout << "No node exists after the node with value " << value << endl;
         return head;
     }
 
     // Node to be deleted
-    Node* nodeToDelete = temp->next;
+    Node* temp2 = temp->next;
 
     // Remove the node
-    temp->next = nodeToDelete->next;
+    temp->next = temp2->next;
 
     // Free the memory
-    delete nodeToDelete;
+    free(temp2);
 
     return head;
 }
 
+// Insertion
 
-// Insert at start
-
-Node*InsertAtBeggining(Node*head,int value){
+Node*insertAtBeginning(int value){
     Node*temp = (Node*)malloc(sizeof(Node));
     temp->data = value;
-    temp->next = nullptr;
-    if(head==NULL){
-        head= temp;
-        temp->next = head;
-        return head;
-    }
-    Node*tail = head;
-    while(tail->next!=head){
-        tail  =  tail->next;
-
-    }
-    tail->next = temp;
     temp->next = head;
-    head = temp;
-    return head;
+    return temp;
 
-}
-
-//Insert at end
-Node*insertAtEnd(Node*head,int value){
     
-     Node*NewNode = (Node*)malloc(sizeof(Node));
-     NewNode->data = value;
-     if(head ==NULL){
-        
-        NewNode->next = NewNode;
-       return NewNode;
-        
-     }
-    Node*temp = head;
-     while(temp->next !=head){
-        temp =temp->next;
 
-     }
-     
-     temp->next = NewNode;
-     NewNode->next= head;
-     return head;
+}
+Node* insertAtEnd(int value){
+    Node*temp = head;
+    if(head==NULL){
+       Node*temp1 = (Node*)malloc(sizeof(Node));
+       temp1->data = value;
+       temp1->next = nullptr;
+       return temp1;
+        
+    }
+    while(temp->next!=NULL){
+        temp = temp->next;
+    }
+    Node*NewNode = (Node*)malloc(sizeof(Node));
+    NewNode->data = value;
+    NewNode->next = nullptr;
+    temp->next = NewNode;
+    return head;
+    
 
 }
 
-// Insert after position
-Node*InsertAfterPosition(Node*head,int value,int pos){
+
+Node*InsertAfterPosition(int value,int pos){
     if(head==NULL){
         cout<<"List is empty.\n";
         return head;
     }
     Node*temp = head;
-     while (temp != head && temp->data != pos) {
+     while (temp != nullptr && temp->data != pos) {
         temp = temp->next;
     }
-     if (temp == head || temp->data!=pos) {
+     if (temp == nullptr || temp->data!=pos) {
         cout << "Node with value " << pos << " not found or there is no node after it." << endl;
         return head;
     }
@@ -178,20 +143,51 @@ Node*InsertAfterPosition(Node*head,int value,int pos){
 
 }
 
+Node*CountNumberOfNodes(){
+    Node*temp = head;
+    int counter  = 0;
+    while(temp!=NULL){
+        temp= temp->next;
+        counter++;
+    }
+    cout<<"No of Nodes is Given Linked List is "<<counter<<endl;
+    return head;
+}
+
+Node*ReverseLinkedList(){
+    if(head ==NULL){
+        return NULL;
+
+    }
+    if(head->next==nullptr){
+        return head;
+
+    }
+     Node*current= head;
+     Node*prev = nullptr;
+     Node*save;
+     while(current!=NULL){
+        save = current->next;
+        current->next = prev;
+        prev = current;
+        current = save;
+
+     }
+     head = prev;
+     return head;
+
+}
 
 
-void display(Node* head) {
-    if (head == nullptr) {
+void display(Node*head) {
+    if (head == NULL) {
         cout << "List is empty!" << endl;
         return;
     }
-
-    Node* temp= head;
-    do {
-        cout << temp->data << " ";
-        temp = temp->next;
-    } while (temp != head);
-
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
     cout << endl;
 }
 
@@ -204,23 +200,17 @@ int main() {
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
-    // Declare the vector with size n
-    vector<int> arr(n);
-
-    // Directly assign values to the vector
-    for (int i = 0; i < n; i++) {
-        cout << "Enter element " << i + 1 << ": ";
-        cin >> arr[i];
-    }
-
-    Node*head=  createCircularLinkedList(arr);
+   
+ head = CreateLinkedList(n);
 
      do {
         cout << "\nMenu:\n";
         cout << "1. Insert\n";
         cout << "2. Delete\n";
         cout << "3. Display\n";
-        cout << "4. Exit\n";
+        cout << "4. Count Number of Nodes\n";
+        cout << "5. Reverse Linked List\n";
+        cout << "6. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -229,7 +219,7 @@ int main() {
                 cout << "\nInsert Menu:\n";
                 cout << "1. Insert at Beginning\n";
                 cout << "2. Insert at End\n";
-                cout << "3. Insert after Position\n";
+                cout << "3. Insert at Position\n";
                 cout << "Enter your choice: ";
                 cin >> subchoice;
 
@@ -238,13 +228,13 @@ int main() {
 
                 switch (subchoice) {
                     case 1:
-                        head = InsertAtBeggining(head,value);
+                        head = insertAtBeginning(value);
                         display(head);
                         cout<<"Element successfully insert at beggining.\n";
 
                         break;
                     case 2:
-                        head = insertAtEnd(head, value);
+                        head = insertAtEnd( value);
                         display(head);
                         cout<<"Element successfully insert at the end.\n";
                         break;
@@ -253,7 +243,7 @@ int main() {
                         cin >> pos;
                         
             
-                        head = InsertAfterPosition(head, value,pos);
+                        head = InsertAfterPosition( value,pos);
                         display(head);
                         break;
                     default:
@@ -272,19 +262,19 @@ int main() {
 
                 switch (subchoice) {
                     case 1:
-                         head =deleteHeadOfCircularLL(head);
+                         head = deleteHeadOfSingleLL();
                          display(head);
                          cout << "Head deleted.\n";
                          break;
                     case 2:
-                            head =deleteTailOfCircularLL(head);
+                            head = deleteTailOfSingleLL();
                             display(head);
                             cout << "Tail deleted.\n";
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";
                         cin >> value;
-                        head = deleteAfterLocation(head, value);
+                        head = deleteAfterLocation( value);
                         display(head);
                         break;
                    
@@ -299,13 +289,23 @@ int main() {
                 display(head);
                 break;
             case 4:
+                head = CountNumberOfNodes();
+                break;
+            case 5:
+               head  = ReverseLinkedList();
+               display(head);
+               break;
+
+                
+
+            case 6:
                 cout << "Exiting...\n";
                 break;
 
             default:
                 cout << "Invalid choice! Please try again.\n";
         }
-    } while (choice != 4);
+    } while (choice != 6);
 
     return 0;
 }

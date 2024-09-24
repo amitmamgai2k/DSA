@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#include <vector>
+
 
 struct Node{
 int data;
@@ -10,20 +10,40 @@ int data;
 };
 Node*head;
 
-Node*createdoublyCircularLinkedList(vector<int> arr){
-Node*head = (Node*)malloc(sizeof(Node));
-head->data = arr[0];
-Node*prev = head;
-for(int i =1; i<arr.size();i++){
-    Node*temp  =(Node*)malloc(sizeof(Node));
-    temp->data = arr[i];
-    temp->next=  head;
-    temp->back = prev;
-    prev->next = temp;
-    prev =temp;
+Node* createdoublyCircularLinkedList(int n) {
+    if (n <= 0) {
+        cout << "Number of elements should be greater than 0" << endl;
+        return nullptr;
+    }
+
+    // Create the head node
+    Node* head = (Node*)malloc(sizeof(Node));
+    cout << "Enter element 1: ";
+    cin >> head->data;
+    head->next = head;  
+    head->back = head;  
+
+    Node* prev = head;  
+
+
+    for (int i = 1; i < n; i++) {
+        Node* temp = (Node*)malloc(sizeof(Node));
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> temp->data;
+
+        temp->next = head;      
+        temp->back = prev;       
+        prev->next = temp;       
+        head->back = temp;      
+        prev = temp;             
+    }
+
+    return head;
 }
-return head;
-}
+
+
+
+
 //Insertion 
 Node*InsertAtBeggining(int value) {
 Node*temp = (Node*)malloc(sizeof(Node));
@@ -193,13 +213,8 @@ cin>>n;
     cout<<"Linked List Size should be less than 30 and greater than or equal to one";
     return 1;
 }
-vector<int>arr(n);
 
-    for (int i = 0; i < n; i++) {
-    cout << "Enter element " << i + 1 << ": ";
-    cin >> arr[i];
-}
-head = createdoublyCircularLinkedList(arr);
+head = createdoublyCircularLinkedList(n);
 do {
     cout << "\nMenu:\n";
     cout << "1. Insert\n";

@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#include <vector>
+
 
 struct Node{
     int data;
@@ -10,19 +10,29 @@ struct Node{
 };
 Node*head;
 
-Node*createdoubleLinkedList(vector<int> arr){
+Node*createdoubleLinkedList(int n){
+    if(n<=0){
+        cout<<"Number of nodes should be greater than 0.\n";
+        return nullptr;
+    }
     Node*head = (Node*)malloc(sizeof(Node));
-    head->data = arr[0];
-    Node*prev = head;
-    for(int i =1; i<arr.size();i++){
-        Node*temp  =(Node*)malloc(sizeof(Node));
-        temp->data = arr[i];
-        temp->next=  nullptr;
+    cout << "Enter element 1: ";
+    cin >> head->data;
+    head->back = nullptr;
+    head->next= nullptr;
+    Node*prev= head;
+    for(int i= 1;i<n;i++){
+        Node*temp = (Node*)malloc(sizeof(Node));
+        cout << "Enter element " << i+1 << ": ";
+        cin>>temp->data;
+        temp->next = nullptr;
         temp->back = prev;
         prev->next = temp;
-        prev =temp;
+        prev = temp;
+
     }
     return head;
+    
 }
 //Insertion 
 Node*InsertAtBeggining(int value) {
@@ -159,13 +169,8 @@ int main(){
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
-    vector<int>arr(n);
-
-      for (int i = 0; i < n; i++) {
-        cout << "Enter element " << i + 1 << ": ";
-        cin >> arr[i];
-    }
-    head = createdoubleLinkedList(arr);
+   
+    head = createdoubleLinkedList(n);
     do {
         cout << "\nMenu:\n";
         cout << "1. Insert\n";
