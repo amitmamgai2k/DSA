@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <stdlib.h>
 using namespace std;
 
 // Structure of our Node
@@ -29,24 +27,41 @@ Node *CreateLinkedList(int n) {
 
 // delete head of the Single Linked List
 Node *deleteHeadOfSingleLL() {
-    if (head == NULL) return NULL;
+    if (head == NULL) {
+     cout<<"List is empty"<<endl;
+     return NULL;
+    }
+    if(head->next==nullptr){
+       free(head);
+       cout << "Head deleted.\n";
+       return NULL;
+    }
+
     Node *temp = head;
     head = head->next;
     free(temp);
+    cout << "Head deleted.\n";
     return head;
 }
 
 Node *deleteTailOfSingleLL() {
-    if (head == NULL) return NULL;
+    if (head == NULL){
+          cout<<"List is empty"<<endl;
+     return NULL;
+         
+    } 
     else if (head->next == NULL) {
+       
         free(head);
-        return NULL;
+         cout<<"Tail deleted";
+        return head;
     }
     Node *temp = head;
     while (temp->next->next != NULL) {
         temp = temp->next;
     }
     free(temp->next);
+    cout<<"Tail deleted";
     temp->next = nullptr;
     return head;
 }
@@ -181,8 +196,7 @@ Node*ReverseLinkedList(){
 
 void display(Node*head) {
     if (head == NULL) {
-        cout << "List is empty!" << endl;
-        return;
+        return ;
     }
     while (head != NULL) {
         cout << head->data << " ";
@@ -196,7 +210,7 @@ int main() {
 
     cout << "Enter the number of elements in the Linked List: ";
     cin >> n;
-    if(n>=30 || n<0){
+    if(n>=30 || n<=0){
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
@@ -264,12 +278,12 @@ int main() {
                     case 1:
                          head = deleteHeadOfSingleLL();
                          display(head);
-                         cout << "Head deleted.\n";
+                       
                          break;
                     case 2:
                             head = deleteTailOfSingleLL();
                             display(head);
-                            cout << "Tail deleted.\n";
+                           
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";

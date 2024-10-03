@@ -1,54 +1,102 @@
-#include<iostream>
-#include<queue>
-using namespace std;
-class Queue{
-    int*arr;
-    int front;
-    int rear;
-    int size;
-    public:
-    Queue(){
-        size = 10;
-        arr = new int[size];
-        front  = 0;
-        rear = 0;
-    }
 
-    void enqueue(int data){
-          if(rear==size){
-            cout<<"Queue is Full";
-          }
-          else{
-            arr[rear] = data;
-            rear++;
-          }
+#include<iostream>
+using namespace std;
+
+const int MAX_SIZE = 30;  // Fixed maximum size of the queue
+int Queue[MAX_SIZE];      // Fixed array size
+int front = -1;
+int rear = -1;
+int MAX;  // User-defined maximum size within the fixed limit
+
+void Display() {
+    if (front == -1 || front > rear) {
+        cout << "Queue is Empty" << endl;
+        return;
     }
-    void dequeue(int data){
-        if(front==rear){
-            return-1;
-        }
-        else{
-            arr[front = -1;]
-            front++;
-            if(front==rear){
-                front= 0;
-                rear= 0;
-            }
-        }
+    cout << "Queue elements are: ";
+    for (int i = front; i <= rear; i++) {
+        cout << Queue[i] << " ";
     }
+    cout << endl;
 }
 
-int main(){
- queue<int>Q;
- Q.push(11);
- Q.push(15);
- Q.push(13);
- cout<<"Size of Queue"<<Q.size();
- cout<<Q.front();
- cout<<Q.back();
- cout<<Q.empty();
- 
+void Enqueue() {
+    if (rear >= MAX - 1) {
+        cout << "Queue is Overflow" << endl;
+        return;
+    }
 
+    int value;
+    cout << "Enter Your Value to Insert: ";
+    cin >> value;
 
-   return 0;
+    if (front == -1) {
+        front = 0;  // Set front to 0 for the first elements
+    }
+
+    rear++;
+    Queue[rear] = value;  // Insert value in the queue
+
+    cout << "Element Successfully Enqueued" << endl;
+    Display();
+}
+
+int Dequeue() {
+    if (front == -1 || front > rear) {
+        cout << "Queue is Underflow" << endl;
+        return -1;
+    }
+
+    cout << Queue[front] << " Element successfully dequeued from Queue" << endl;
+    front++;
+
+    // If the queue becomes empty after dequeue
+    if (front > rear) {
+        front = -1;
+        rear = -1;
+    }
+
+    Display();
+    return 1;
+}
+
+int main() {
+    int choice;
+
+    cout << "Enter the size of the Queue (MAX 30): ";
+    cin >> MAX;
+
+    if (MAX > MAX_SIZE) {
+        cout << "Queue Size should be less than or equal to 30" << endl;
+        return -1;
+    }
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Display\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                Enqueue();
+                break;
+            case 2:
+                Dequeue();
+                break;
+            case 3:
+                Display();
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
 }

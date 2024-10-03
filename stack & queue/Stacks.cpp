@@ -1,11 +1,11 @@
 #include <iostream>
 using namespace std;
 
-class Stack {
+struct Stack {
     int size;
     int* arr;
     int top;
-public:
+
     Stack(int size) {
         this->size = size;
         arr = new int[size];

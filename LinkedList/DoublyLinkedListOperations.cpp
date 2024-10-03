@@ -9,7 +9,7 @@ struct Node{
 
 };
 Node*head;
-
+//s
 Node*createdoubleLinkedList(int n){
     if(n<=0){
         cout<<"Number of nodes should be greater than 0.\n";
@@ -34,7 +34,7 @@ Node*createdoubleLinkedList(int n){
     return head;
     
 }
-//Insertion 
+//Insertions
 Node*InsertAtBeggining(int value) {
     Node* temp = (Node*)malloc(sizeof(Node));
     temp->data = value;
@@ -97,14 +97,18 @@ Node*DeleteHead(){
         cout<<"List is empty"<<endl;
         return NULL;
     }
+    
     if(head->next ==NULL ){
-        delete head;
+        free(head);
+         cout<<"Head deleted";
         return NULL;
     }
     Node*temp = head;
     head = head->next;
     head->back = nullptr;
     free(temp);
+    cout<<"Head deleted";
+   
     return head;
     
 }
@@ -113,8 +117,10 @@ Node*DeleteTail(){
         cout<<"List is empty"<<endl;
         return NULL;
     }
-     else if (head->next == NULL) {
+    if (head->next == NULL) {
+
         free(head);
+        cout << "Tail deleted.\n";
         return NULL;
     }
     Node*tail =  head;
@@ -122,10 +128,11 @@ Node*DeleteTail(){
         tail = tail->next;
     }
     free(tail->next);
+     cout << "Tail deleted.\n";
     tail->next = nullptr;
     return head;
 
-
+//s.
 
 
 }
@@ -150,6 +157,7 @@ Node*DeleteAfterLocation(int pos){
     }
    temp->next = temp1->next;
    free(temp1);
+   
    return head;
    
 }
@@ -229,13 +237,19 @@ int main(){
                 switch (subchoice) {
                     case 1:
                          head =DeleteHead();
+
                          display(head);
-                         cout << "Head deleted.\n";
+                      
+
+
+                       
+
+                    
                          break;
                     case 2:
                             head =DeleteTail();
                             display(head);
-                            cout << "Tail deleted.\n";
+                           
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";
@@ -266,3 +280,4 @@ int main(){
     return 0;
 }
 
+//sss

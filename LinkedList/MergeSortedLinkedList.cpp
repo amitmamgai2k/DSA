@@ -27,7 +27,7 @@ Node* CreateLinkedList(int n) {
 }
 
 Node* MergeLinkedList(Node* head1, Node* head2) {
-    Node* dummyNode = new Node();
+    Node* dummyNode = (Node*)malloc(sizeof(Node));
     Node* temp = dummyNode;
 
     while (head1 != nullptr && head2 != nullptr) {

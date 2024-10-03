@@ -1,6 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <stdlib.h>
+
 using namespace std;
 
 // Structure of our Node
@@ -29,11 +28,15 @@ Node*createCircularLinkedList(int n) {
 }
 
 
-// delete head of the Circular Linked List
+// delete head of the Circular Linked Listss
 Node *deleteHeadOfCircularLL() {
-    if (head == NULL) return NULL;
+    if (head == NULL) {
+  cout<<"List is empty";
+  return NULL;
+    }
       if (head->next == head) {
-        delete head; 
+        free(head); 
+        cout<<"Head Deleted";
         return nullptr; 
     }
     Node *temp = head;
@@ -42,20 +45,24 @@ Node *deleteHeadOfCircularLL() {
     }
     Node*newHead = head->next;
     temp->next = newHead;
-    delete head;
+    free(head);
+    cout<<"Head deleted";
    return newHead;
 
 
     
 }
-// deleteTail
+// deleteTail///
 
 Node *deleteTailOfCircularLL() {
-    if (head == NULL) return NULL;
-
-    if (head->next == NULL) {
-        free(head);
-        return NULL;
+      if (head == NULL) {
+      cout<<"List is empty";
+      return NULL;
+    }
+      if (head->next == head) {
+        free(head); 
+        cout<<"Tail Deleted";
+        return nullptr; 
     }
     Node *temp = head;
     while (temp->next->next != head) {
@@ -63,7 +70,8 @@ Node *deleteTailOfCircularLL() {
     }
     Node*tail = temp->next;
     temp->next = head;
-    delete tail;
+    free (tail);
+    cout<<"Tail deleted";
     return head;
 }
 
@@ -103,7 +111,7 @@ Node* deleteAfterLocation(int value) {
     temp->next = nodeToDelete->next;
 
     // Free the memory
-    delete nodeToDelete;
+    free (nodeToDelete);
 
     return head;
 }
@@ -183,7 +191,7 @@ Node*InsertAfterPosition(int value,int pos){
 
 void display(Node* head) {
     if (head == nullptr) {
-        cout << "List is empty!" << endl;
+        
         return;
     }
 
@@ -269,12 +277,12 @@ int main() {
                     case 1:
                          head =deleteHeadOfCircularLL();
                          display(head);
-                         cout << "Head deleted.\n";
+                        
                          break;
                     case 2:
                             head =deleteTailOfCircularLL();
                             display(head);
-                            cout << "Tail deleted.\n";
+                         
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";

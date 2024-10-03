@@ -78,6 +78,13 @@ if(head==NULL){
     return head;
 }
 Node*tail = head;
+//without using while
+//Node*tail = head->back;
+//tail->next = EndNode;
+//EndNode->back = tail;
+//EndNode->next = head;
+//head->back = EndNode;
+
 while(tail->next!=head){
     tail = tail->next;
 }
@@ -124,7 +131,9 @@ if(head==NULL){
     return NULL;
 }
 if(head->next ==head){
+
     free(head) ;
+    cout<<"Head deleted"
     return NULL;
 }
 
@@ -138,6 +147,7 @@ head = head->next;
 head->back = tail;
 tail->next = head;
 free(temp);
+cout<<"Head deleted";
 return head;
 
 }
@@ -146,15 +156,29 @@ if(head==NULL){
     cout<<"List is empty"<<endl;
     return NULL;
 }
-    else if (head->next == head) {
+  if (head->next == head) {
     free(head);
+    cout<<"Tail deleted";
     return NULL;
 }
+
+
 Node*tail =  head;
+
+
+/////without loop
+//head->back->back->next = head;
+//head->back = head->back->back;
+//return head;
+
+
+
+
 while(tail->next->next != head){
     tail = tail->next;
 }
 free(tail->next);
+cout<<"Tail deleted";
 tail->next = head;
 return head;
 
@@ -191,10 +215,7 @@ return head;
 
 }
 void display(Node*head) {
-    if (head == nullptr) {
-        cout << "List is empty!" << endl;
-        return;
-    }
+   
 
     Node* temp= head;
     do {
@@ -261,7 +282,7 @@ do {
             }
             break;
 
-            case 2:  // Delete Menu
+            case 2:  // Delete Men
             cout << "\nDelete Menu:\n";
             cout << "1. Delete Head\n";
             cout << "2. Delete Tail\n";
@@ -274,12 +295,12 @@ do {
                 case 1:
                         head =DeleteHead();
                         display(head);
-                        cout << "Head deleted.\n";
+                       
                         break;
                 case 2:
                         head =DeleteTail();
                         display(head);
-                        cout << "Tail deleted.\n";
+                       
                         break;
                 case 3:
                     cout << "Enter the value of the node after which you want to delete the next node: ";
