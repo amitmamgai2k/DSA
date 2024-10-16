@@ -1,9 +1,8 @@
 #include <iostream>
-#include <cctype>
 #include <math.h>
 using namespace std;
 
-char stack[100];  // char stack for infix-to-postfix conversion
+char stack[100];  
 int top = -1;
 
 void push(char data) {
@@ -22,7 +21,7 @@ char pop() {
         return popped;
     } else {
         cout << "Stack Underflow" << endl;
-        return '\0'; // Error case
+        return '\0'; 
     }
 }
 
@@ -30,11 +29,11 @@ char peek() {
     if (top >= 0) {
         return stack[top];
     } else {
-        return '\0'; // Error case
+        return '\0'; 
     }
 }
 
-// Check precedence
+// Check precedences
 int precedence(char c) {
     if (c == '^') {
         return 3;
@@ -49,19 +48,22 @@ int precedence(char c) {
 
 string infixToPostFix(string s) {
     string result;
+    bool lastCharWasOperator = false;
     for (int i = 0; i < s.length(); i++) {
-        // If it's not an alphanumeric character and not a valid operator or parentheses
+        // If it's not a valid operator or operand
         if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9') || s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^' || s[i] == '(' || s[i] == ')')) {
-            cout << "Operator and Operand is not valid" << endl;
+            cout << "Invalid operator or operand: " << s[i] << endl;
             return "";
         }
         // If it's an operand (letter or digit)
         if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9')) {
             result += s[i];
+            lastCharWasOperator = false;
         }
         // If it's a left parenthesis
         else if (s[i] == '(') {
             push(s[i]);
+            lastCharWasOperator = false;
         }
         // If it's a right parenthesis, pop until the left parenthesis is found
         else if (s[i] == ')') {
@@ -71,16 +73,27 @@ string infixToPostFix(string s) {
             if (top != -1) {
                 pop();  // Pop '('
             }
+            lastCharWasOperator = false;
         }
         // If it's an operator
         else {
+            if (lastCharWasOperator) {
+                cout << "Invalid expression: consecutive operators " << s[i-1] << s[i] << endl;
+                return "";
+            }
             while (top != -1 && precedence(peek()) >= precedence(s[i])) {
                 result += pop();
             }
             push(s[i]);
+            lastCharWasOperator = true;
         }
     }
-    // Pop all the remaining operators from the stack
+    
+    if (lastCharWasOperator) {
+        cout << "Invalid expression: ends with an operator " << s[s.length() - 1] << endl;
+        return "";
+    }
+    
     while (top != -1) {
         result += pop();
     }
@@ -92,18 +105,18 @@ int evaluatePostfixExpression(string s) {
     int evalTop = -1;
     
     for (int i = 0; i < s.length(); i++) {
-        // If it's a character, we can't evaluate it
-        if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')) {
-            cout << "Evaluation cannot be done on characters." << endl;
+        // If it's not a valid operator or operand
+        if (!((s[i] >= '0' && s[i] <= '9') || s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^')) {
+            cout << "Invalid operator or operand: " << s[i] << endl;
             return -1;
         }
         
         // If it's a number, push it onto the evaluation stack
         if (s[i] >= '0' && s[i] <= '9') {
             evalTop++;
-            evalStack[evalTop] = s[i] - '0';  // Convert char to int
+            evalStack[evalTop] = s[i] - '0'; 
         }
-        // If it's an operator, pop two values and perform the operation
+       
         else {
             int op2 = evalStack[evalTop--];  // Second operand
             int op1 = evalStack[evalTop--];  // First operand
@@ -117,7 +130,7 @@ int evaluatePostfixExpression(string s) {
                 default: cout << "Invalid operator." << endl; return -1;
             }
             evalTop++;
-            evalStack[evalTop] = result;  // Push result to eval stack
+            evalStack[evalTop] = result;  
         }
     }
     return evalStack[evalTop];  // Final result
