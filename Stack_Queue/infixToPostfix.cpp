@@ -2,154 +2,233 @@
 #include <math.h>
 using namespace std;
 
-char stack[100];  
+char stack[100];
 int top = -1;
 
-void push(char data) {
-    if (top < 99) {
+// Push function
+void push(char data)
+{
+    if (top < 99)
+    {
         top++;
         stack[top] = data;
-    } else {
+    }
+    else
+    {
         cout << "Stack Overflow" << endl;
     }
 }
 
-char pop() {
-    if (top >= 0) {
+// Pop function
+char pop()
+{
+    if (top >= 0)
+    {
         char popped = stack[top];
         top--;
         return popped;
-    } else {
+    }
+    else
+    {
         cout << "Stack Underflow" << endl;
-        return '\0'; 
+        return '\0';
     }
 }
 
-char peek() {
-    if (top >= 0) {
+// Peek function
+char peek()
+{
+    if (top >= 0)
+    {
         return stack[top];
-    } else {
-        return '\0'; 
+    }
+    else
+    {
+        return '\0';
     }
 }
 
-// Check precedences
-int precedence(char c) {
-    if (c == '^') {
+// Function to check the precedence
+int precedence(char c)
+{
+    if (c == '^')
+    {
         return 3;
-    } else if (c == '/' || c == '*') {
+    }
+    else if (c == '/' || c == '*')
+    {
         return 2;
-    } else if (c == '+' || c == '-') {
+    }
+    else if (c == '+' || c == '-')
+    {
         return 1;
-    } else {
+    }
+    else
+    {
         return -1;
     }
 }
 
-string infixToPostFix(string s) {
+// Function to convert infix to postfix notation
+string infixToPostFix(string s)
+{
     string result;
-    bool lastCharWasOperator = false;
-    for (int i = 0; i < s.length(); i++) {
-        // If it's not a valid operator or operand
-        if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9') || s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^' || s[i] == '(' || s[i] == ')')) {
+    int Counter = 0; // To check balanced parentheses
+    for (int i = 0; i < s.length(); i++)
+    {
+        // Check if it's a valid operand or operator
+        if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') ||
+              (s[i] >= '0' && s[i] <= '9') || s[i] == '+' || s[i] == '-' ||
+              s[i] == '*' || s[i] == '/' || s[i] == '^' || s[i] == '(' || s[i] == ')'))
+        {
             cout << "Invalid operator or operand: " << s[i] << endl;
             return "";
         }
-        // If it's an operand (letter or digit)
-        if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9')) {
+
+        if ((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') ||
+            (s[i] >= '0' && s[i] <= '9'))
+        {
             result += s[i];
-            lastCharWasOperator = false;
         }
-        // If it's a left parenthesis
-        else if (s[i] == '(') {
+        // Left parenthesis
+        else if (s[i] == '(')
+        {
             push(s[i]);
-            lastCharWasOperator = false;
+            Counter++;
         }
-        // If it's a right parenthesis, pop until the left parenthesis is found
-        else if (s[i] == ')') {
-            while (top != -1 && peek() != '(') {
+
+        else if (s[i] == ')')
+        {
+            while (top != -1 && peek() != '(')
+            {
                 result += pop();
             }
-            if (top != -1) {
-                pop();  // Pop '('
+            if (top != -1)
+            {
+                pop(); //
             }
-            lastCharWasOperator = false;
+            Counter--;
+            if (Counter < 0)
+            {
+                cout << "() Mismatch" << endl;
+                return " ";
+            }
         }
-        // If it's an operator
-        else {
-            if (lastCharWasOperator) {
-                cout << "Invalid expression: consecutive operators " << s[i-1] << s[i] << endl;
-                return "";
-            }
-            while (top != -1 && precedence(peek()) >= precedence(s[i])) {
+        // Operator
+        else
+        {
+            while (top != -1 && precedence(peek()) >= precedence(s[i]))
+            {
                 result += pop();
             }
             push(s[i]);
-            lastCharWasOperator = true;
         }
     }
-    
-    if (lastCharWasOperator) {
-        cout << "Invalid expression: ends with an operator " << s[s.length() - 1] << endl;
-        return "";
-    }
-    
-    while (top != -1) {
+
+    // Pop all remaining operators from the stack
+    while (top != -1)
+    {
         result += pop();
+    }
+
+    // Check for any remaining unbalanced parentheses
+    if (Counter != 0)
+    {
+        cout << "() Mismatched" << endl;
+        return " ";
     }
     return result;
 }
 
-int evaluatePostfixExpression(string s) {
-    int evalStack[100]; // Integer stack for evaluation
-    int evalTop = -1;
-    
-    for (int i = 0; i < s.length(); i++) {
-        // If it's not a valid operator or operand
-        if (!((s[i] >= '0' && s[i] <= '9') || s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^')) {
-            cout << "Invalid operator or operand: " << s[i] << endl;
+// Function to evaluate the postfix expression using the same stack
+int evaluatePostfixExpression(string s)
+{
+    top = -1;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+
+        if (s[i] >= '0' && s[i] <= '9')
+        {
+            push(s[i] - '0'); // Convert char digit to int and push
+        }
+        // If it's an operator, pop two operands and evaluate
+        else if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^')
+        {
+            int op2 = pop(); // Second operand
+            int op1 = pop(); // First operand
+            int result;
+
+            switch (s[i])
+            {
+            case '+':
+                result = op1 + op2;
+                break;
+            case '-':
+                result = op1 - op2;
+                break;
+            case '*':
+                result = op1 * op2;
+                break;
+            case '/':
+                result = op1 / op2;
+                break;
+            case '^':
+                result = pow(op1, op2);
+                break;
+            default:
+                cout << "Invalid operator." << endl;
+                return -1;
+            }
+            push(result);
+        }
+        else
+        {
+
+            cout << "Cannot evaluate expressions with variables." << endl;
             return -1;
         }
-        
-        // If it's a number, push it onto the evaluation stack
-        if (s[i] >= '0' && s[i] <= '9') {
-            evalTop++;
-            evalStack[evalTop] = s[i] - '0'; 
-        }
-       
-        else {
-            int op2 = evalStack[evalTop--];  // Second operand
-            int op1 = evalStack[evalTop--];  // First operand
-            int result;
-            switch (s[i]) {
-                case '+': result = op1 + op2; break;
-                case '-': result = op1 - op2; break;
-                case '*': result = op1 * op2; break;
-                case '/': result = op1 / op2; break;
-                case '^': result = pow(op1, op2); break;
-                default: cout << "Invalid operator." << endl; return -1;
-            }
-            evalTop++;
-            evalStack[evalTop] = result;  
-        }
     }
-    return evalStack[evalTop];  // Final result
+    return pop();
 }
 
-int main() {
+int main()
+{
     string infixExpression;
     // Infix expression input
     cout << "Enter an infix expression: ";
     cin >> infixExpression;
+
     // Conversion to postfix
     string postfixExpression = infixToPostFix(infixExpression);
-    if (!postfixExpression.empty()) {
+    if (!postfixExpression.empty())
+    {
         cout << "Postfix expression: " << postfixExpression << endl;
-        // Evaluate the postfix expression
-        int result = evaluatePostfixExpression(postfixExpression);
-        if (result != -1) {
-            cout << "Evaluation result: " << result << endl;
+
+        bool containsVariable = false;
+        for (char c : postfixExpression)
+        {
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+            {
+                containsVariable = true;
+                break;
+            }
+        }
+
+        if (containsVariable)
+        {
+            cout << "Evaluation not possible with variables." << endl;
+        }
+        else
+        {
+            // Evaluate the postfix expression
+            int result = evaluatePostfixExpression(postfixExpression);
+            if (result != -1)
+            {
+                cout << "Evaluation result: " << result << endl;
+            }
         }
     }
+
     return 0;
 }
