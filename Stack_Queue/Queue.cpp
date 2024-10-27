@@ -3,13 +3,13 @@
 using namespace std;
 
 const int MAX_SIZE = 30;  // Fixed maximum size of the queue
-int Queue[MAX_SIZE];      // Fixed array size
+int Queue[MAX_SIZE];      
 int front = -1;
 int rear = -1;
-int MAX;  // User-defined maximum size within the fixed limit
+int MAX;  
 
 void Display() {
-    if (front == -1 || front > rear) {
+    if (front == -1 ) {
         cout << "Queue is Empty" << endl;
         return;
     }
@@ -35,14 +35,14 @@ void Enqueue() {
     }
 
     rear++;
-    Queue[rear] = value;  // Insert value in the queue
+    Queue[rear] = value;  
 
     cout << "Element Successfully Enqueued" << endl;
     Display();
 }
 
 int Dequeue() {
-    if (front == -1 || front > rear) {
+    if (front == -1 ) {
         cout << "Queue is Underflow" << endl;
         return -1;
     }

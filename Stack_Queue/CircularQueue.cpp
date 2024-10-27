@@ -68,7 +68,7 @@ void DequeueArray() {
         return;
     }
     int value = Queue[front];
-    if (front == rear) {  // Queue becomes empty after dequeuing the last element
+    if (front == rear) {  
         front = rear = -1;
     } else {
         front = (front + 1) % Size;

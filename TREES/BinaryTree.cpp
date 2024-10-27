@@ -7,19 +7,18 @@ struct Node {
     Node* left;
     Node* right;
 
-    // Constructor to initialize a new node
-    Node(int value) {
-        data = value;
-        left = nullptr;
-        right = nullptr;
-    }
+  
 };
 
 // Function to insert a new value into the Binary Search Tree (BST)
 Node* insert(Node* root, int value) {
-    // If the tree is empty, create a new node
+    // If the tree is empty, create a new node and return it as the root
     if (root == nullptr) {
-        return new Node(value);
+        Node* newNode = (Node*)malloc(sizeof(Node)); // Allocate memory for new node
+        newNode->data = value;
+        newNode->left = nullptr;
+        newNode->right = nullptr;
+        return newNode;
     }
 
     // If the value is smaller than the root's data, insert it into the left subtree
@@ -31,10 +30,78 @@ Node* insert(Node* root, int value) {
         root->right = insert(root->right, value);
     }
 
-    return root;  // Return the root pointer after insertion
+    // Return the root pointer after insertion
+    return root;
 }
 
-// Function for Inorder traversal (Left, Root, Right)
+
+bool search(Node*root,int value){
+    Node*temp = root;
+    while(temp!=NULL){
+    if(temp->data ==value){
+        return true;
+    }
+    if(temp->data >value){
+        temp = temp->left;
+    }
+    else{
+        temp = temp->right;
+    }
+    }
+return false;
+}
+
+Node*Delete(Node*root,int value){
+    if(root==NULL){
+        return root;
+    }
+    if(root->data ==value){
+        // when leaf node
+        if(root->left==nullptr && root->right==nullptr){
+            free(root);
+            return NULL;
+        }
+        //when right child is null
+        else if( root->left!=NULL && root->right==nullptr){
+            Node*temp = root->left;
+            free(root);
+            return temp;
+
+        }
+        //when left child is null
+        else if(root->left==nullptr && root->right!=NULL){
+            Node*temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if(root->left!=NULL && root->right!=NULL){
+            //first find max from left or min value from right
+            Node*temp = root->right;
+            while(temp->left!=nullptr){
+                temp = temp->left;
+            }
+           int temp1 = temp->data;
+           root->data  = temp1;
+           root->right = Delete(root->right,temp1);
+           return root;
+
+        }
+
+    }
+    else if(root->data >value){
+        root->left = Delete(root->left,value);
+        return root;
+    }
+    else{
+        root->right = Delete(root->right,value);
+    }
+    return root;
+
+
+}
+
+
+
 void inorder(Node* root) {
     if (root == nullptr) {
         return;
@@ -65,31 +132,72 @@ void postorder(Node* root) {
 }
 
 int main() {
-    Node* root = nullptr;  // Initialize the root of the BST as null
-    int n, value;
+Node* root = nullptr;
+    int choice, value;
 
-    cout << "Enter the number of nodes you want to insert: ";
-    cin >> n;
+    while (true) {
+        // Display the menu
+        cout << "\nMenu:\n";
+        cout << "1. Insert\n";
+        cout << "2. Delete\n";
+        cout << "3. Search\n";
+        cout << "4. Inorder Traversal\n";
+        cout << "5. Preorder Traversal\n";
+        cout << "6. Postorder Traversal\n";
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    // Insert values into the Binary Search Tree
-    for (int i = 0; i < n; ++i) {
-        cout << "Enter value for node " << i + 1 << ": ";
-        cin >> value;
-        root = insert(root, value);
+        switch (choice) {
+            case 1:
+                cout << "Enter value to insert: ";
+                cin >> value;
+                root = insert(root, value);
+                cout << "Inserted " << value << " into the BST.\n";
+                break;
+
+            case 2:
+                cout << "Enter value to delete: ";
+                cin >> value;
+                root = Delete(root, value);
+                cout << "Deleted " << value << " from the BST.\n";
+                break;
+
+            case 3:
+                cout << "Enter value to search: ";
+                cin >> value;
+                if (search(root, value)) {
+                    cout << "Value " << value << " found in the BST.\n";
+                } else {
+                    cout << "Value " << value << " not found in the BST.\n";
+                }
+                break;
+
+            case 4:
+                cout << "Inorder traversal: ";
+                inorder(root);
+                cout << endl;
+                break;
+
+            case 5:
+                cout << "Preorder traversal: ";
+                preorder(root);
+                cout << endl;
+                break;
+
+            case 6:
+                cout << "Postorder traversal: ";
+                postorder(root);
+                cout << endl;
+                break;
+
+            case 7:
+                cout << "Exiting...\n";
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+                break;
+        }
     }
-
-    // Display the tree using different traversal techniques
-    cout << "Inorder traversal: ";
-    inorder(root);
-    cout << endl;
-
-    cout << "Preorder traversal: ";
-    preorder(root);
-    cout << endl;
-
-    cout << "Postorder traversal: ";
-    postorder(root);
-    cout << endl;
-
-    return 0;
 }
