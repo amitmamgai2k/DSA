@@ -24,12 +24,27 @@ int getBalanceFactor(Node*root){
 }
 //Right Rotation
 Node*rightRotation(Node*root){
-    
+    Node*child = root->left;
+    Node*childRight = child->right;
+    child->right = root;
+    root->left = childRight;
+
+    // update height;
+    root->height = 1+max(getheight(root->left),getheight(root->right));
+    child->height = 1+max(getheight(child->left),getheight(child->right));
+    return child;
 
 
 }
 //Left Rotation
 Node*leftRotation(Node*root){
+    Node*child = root->right;
+    Node*childleft = child->left;
+    child->left = root;
+    root->right = childleft;
+     root->height = 1+max(getheight(root->left),getheight(root->right));
+    child->height = 1+max(getheight(child->left),getheight(child->right));
+    return child;
 
 }
 Node*insert (Node*root,int value){
@@ -58,28 +73,28 @@ Node*insert (Node*root,int value){
      
     // Left Left case 
     if(balance>1 && value <root->left->data){
-          rightRotation(root);
+         return rightRotation(root);
 
     }
     // Right Right case
    else if(balance<1 && root->right->data<value){
-       leftRotation(root);
+        return leftRotation(root);
 
    }
     // Left Right case
    else if(balance >1 && value >root->left->data){
-        leftRotation(root->left);
-        rightRotation(root);
+       root->left =  leftRotation(root->left);
+       return rightRotation(root);
    }
     // Right left case
    else if(balance <1 && root->right->data>value){
-      rightRotation(root->right);
-      leftRotation(root);
+    root->right =   rightRotation(root->right);
+     return leftRotation(root);
 
    }
     // No unblancing
     else{
-         
+         return;
     }
 
 }
