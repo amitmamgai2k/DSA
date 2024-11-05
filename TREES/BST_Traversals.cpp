@@ -1,54 +1,88 @@
 #include <iostream>
-#include <stack>
 using namespace std;
 
+// Node structure for binary tree
 struct Node {
     int data;
     Node* right;
     Node* left;
 };
 
-Node* NewNode(int data) {
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->data = data;
-    node->left = nullptr;
-    node->right = nullptr;
-    return node;
+
+struct StackNode {
+    Node* data;
+    StackNode* next;
+};
+
+StackNode* top = nullptr;
+
+
+void Push(Node* node) {
+    StackNode* temp = (StackNode*)malloc(sizeof(StackNode));
+    if (temp == nullptr) {
+        cout << "Memory allocation failed." << endl;
+        return;
+    }
+    temp->data = node;
+    temp->next = top;
+    top = temp;
 }
 
-Node* insertNode() {
-    int data;
-    cout << "Enter data (-1 for no node): ";
-    cin >> data;
-    if (data == -1) {
+Node* Pop() {
+    if (top == nullptr) {
+        cout << "Stack is empty" << endl;
         return nullptr;
     }
-    
-    Node* node = NewNode(data);
-    cout << "Enter left child of " << data << endl;
-    node->left = insertNode();
-    cout << "Enter right child of " << data << endl;
-    node->right = insertNode();
-
-    return node;
+    Node* value = top->data;
+    StackNode* temp = top;
+    top = top->next;
+    free(temp);
+    return value;
 }
+
+bool isEmpty() {
+    return top == nullptr;
+}
+
+
+Node* insert(Node* root, int value) {
+    if (value == -1) {
+        return nullptr; 
+    }
+
+    if (root == nullptr) {
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        newNode->data = value;
+        newNode->left = nullptr;
+        newNode->right = nullptr;
+        cout << value << " Inserted Successfully\n";
+        return newNode;
+    }
+
+    if (value < root->data) {
+        root->left = insert(root->left, value);
+    } else if (value > root->data) {
+        root->right = insert(root->right, value);
+    }
+    return root;
+}
+
 
 void preorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
-    stack<Node*> Stack;
-    Stack.push(root);
+    Push(root);
 
-    while (!Stack.empty()) {
-        Node* temp = Stack.top();
+    while (!isEmpty()) {
+        Node* temp = Pop();
         cout << temp->data << " ";
-        Stack.pop();
+        
         if (temp->right) {
-            Stack.push(temp->right);
+            Push(temp->right);
         }
         if (temp->left) {
-            Stack.push(temp->left);
+            Push(temp->left);
         }
     }
     cout << endl;
@@ -58,17 +92,15 @@ void inorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
-    stack<Node*> Stack;
-    Node* current = root;
 
-    while (current != nullptr || !Stack.empty()) {
+    Node* current = root;
+    while (current != nullptr || !isEmpty()) {
         while (current != nullptr) {
-            Stack.push(current);
+            Push(current);
             current = current->left;
         }
 
-        current = Stack.top();
-        Stack.pop();
+        current = Pop();
         cout << current->data << " ";
         current = current->right;
     }
@@ -79,40 +111,39 @@ void postorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
-    stack<Node*> Stack;
-    Node*ptr = root;
-    while(ptr!=nullptr || !Stack.empty()){
-        while(ptr!=nullptr){
-            Stack.push(ptr);
-            // if the node has right child
-            //if child child push with a negative sign
-            if(ptr->right!=nullptr){
-                 Stack.push((Node*)(-1 * (intptr_t)ptr->right));
+
+    Node* current = root;
+    while (current != nullptr || !isEmpty()) {
+        while (current != nullptr) {
+            Push(current);
+            if (current->right) {
+                Push((Node*)(-1 * (intptr_t)current->right));
             }
-            ptr = ptr->left;
-
-        }
-        ptr = Stack.top();
-        Stack.pop();
-        if((intptr_t) ptr< 0){
-            ptr = (Node*)(-1*(intptr_t)ptr);
-
-        }else{
-            cout<<ptr->data<<" ";
-            ptr = nullptr;
+            current = current->left;
         }
 
-
+        current = Pop();
+        if ((intptr_t)current < 0) {
+            current = (Node*)(-1 * (intptr_t)current);
+        } else {
+            cout << current->data << " ";
+            current = nullptr;
+        }
     }
-
-
-
-  
+    cout << endl;
 }
 
 int main() {
-    cout << "Build the binary tree:\n";
-    Node* root = insertNode();
+    Node* root = nullptr;
+    int value;
+
+    cout << "Enter values to insert into the tree (-1 to stop):\n";
+    while (true) {
+        cout << "Enter value: ";
+        cin >> value;
+        if (value == -1) break;
+        root = insert(root, value);
+    }
 
     int choice;
     do {

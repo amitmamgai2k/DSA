@@ -1,106 +1,93 @@
 #include <iostream>
 using namespace std;
 
-// Define the structure for a node in the binary search tree
 struct Node {
     int data;
     Node* left;
     Node* right;
-
-  
 };
 
-// Function to insert a new value into the Binary Search Tree (BST)
 Node* insert(Node* root, int value) {
-    // If the tree is empty, create a new node and return it as the root
+   
+
     if (root == nullptr) {
-        Node* newNode = (Node*)malloc(sizeof(Node)); // Allocate memory for new node
+        Node* newNode = (Node*)malloc(sizeof(Node));
         newNode->data = value;
         newNode->left = nullptr;
         newNode->right = nullptr;
+        cout << value << " Inserted Successfully\n";
         return newNode;
     }
 
-    // If the value is smaller than the root's data, insert it into the left subtree
+
     if (value < root->data) {
         root->left = insert(root->left, value);
-    }
-    // If the value is greater than the root's data, insert it into the right subtree
-    else if (value > root->data) {
+    } else if (value > root->data) {
         root->right = insert(root->right, value);
     }
-
-    // Return the root pointer after insertion
     return root;
 }
 
-
-bool search(Node*root,int value){
-    Node*temp = root;
-    while(temp!=NULL){
-    if(temp->data ==value){
-        return true;
+bool search(Node* root, int value) {
+    Node* temp = root;
+    while (temp != nullptr) {
+        if (temp->data == value) {
+            return true;
+        }
+        if (temp->data > value) {
+            temp = temp->left;
+        } else {
+            temp = temp->right;
+        }
     }
-    if(temp->data >value){
-        temp = temp->left;
-    }
-    else{
-        temp = temp->right;
-    }
-    }
-return false;
+    return false;
 }
 
-Node*Delete(Node*root,int value){
-    if(root==NULL){
-        return root;
+Node* Delete(Node* root, int value) {
+    if (root == nullptr) {
+        cout << "No Element Present\n";
+        return nullptr;
     }
-    if(root->data ==value){
+    if (root->data == value) {
         // when leaf node
-        if(root->left==nullptr && root->right==nullptr){
+        if (root->left == nullptr && root->right == nullptr) {
             free(root);
-            return NULL;
+            cout << value << " Successfully deleted\n";
+            return nullptr;
         }
-        //when right child is null
-        else if( root->left!=NULL && root->right==nullptr){
-            Node*temp = root->left;
+        // when right child is null
+        else if (root->left != nullptr && root->right == nullptr) {
+            Node* temp = root->left;
             free(root);
-            return temp;
-
-        }
-        //when left child is null
-        else if(root->left==nullptr && root->right!=NULL){
-            Node*temp = root->right;
-            free(root);
+            cout << value << " Successfully deleted\n";
             return temp;
         }
-        else if(root->left!=NULL && root->right!=NULL){
-            //first find max from left or min value from right
-            Node*temp = root->right;
-            while(temp->left!=nullptr){
+        // when left child is null
+        else if (root->left == nullptr && root->right != nullptr) {
+            Node* temp = root->right;
+            free(root);
+            cout << value << " Successfully deleted\n";
+            return temp;
+        }
+        else if (root->left != nullptr && root->right != nullptr) {
+            // find min value from the right subtree
+            Node* temp = root->right;
+            while (temp->left != nullptr) {
                 temp = temp->left;
             }
-           int temp1 = temp->data;
-           root->data  = temp1;
-           root->right = Delete(root->right,temp1);
-           return root;
-
+            int temp1 = temp->data;
+            root->data = temp1;
+            root->right = Delete(root->right, temp1);
+            cout << value << " Successfully deleted\n";
+            return root;
         }
-
-    }
-    else if(root->data >value){
-        root->left = Delete(root->left,value);
-        return root;
-    }
-    else{
-        root->right = Delete(root->right,value);
+    } else if (root->data > value) {
+        root->left = Delete(root->left, value);
+    } else {
+        root->right = Delete(root->right, value);
     }
     return root;
-
-
 }
-
-
 
 void inorder(Node* root) {
     if (root == nullptr) {
@@ -111,7 +98,6 @@ void inorder(Node* root) {
     inorder(root->right);
 }
 
-// Function for Preorder traversal (Root, Left, Right)
 void preorder(Node* root) {
     if (root == nullptr) {
         return;
@@ -121,7 +107,6 @@ void preorder(Node* root) {
     preorder(root->right);
 }
 
-// Function for Postorder traversal (Left, Right, Root)
 void postorder(Node* root) {
     if (root == nullptr) {
         return;
@@ -132,11 +117,12 @@ void postorder(Node* root) {
 }
 
 int main() {
-Node* root = nullptr;
+    Node* root = nullptr;
     int choice, value;
+    
+   
 
     while (true) {
-        // Display the menu
         cout << "\nMenu:\n";
         cout << "1. Insert\n";
         cout << "2. Delete\n";
@@ -153,14 +139,12 @@ Node* root = nullptr;
                 cout << "Enter value to insert: ";
                 cin >> value;
                 root = insert(root, value);
-                cout << "Inserted " << value << " into the BST.\n";
                 break;
 
             case 2:
                 cout << "Enter value to delete: ";
                 cin >> value;
                 root = Delete(root, value);
-                cout << "Deleted " << value << " from the BST.\n";
                 break;
 
             case 3:
