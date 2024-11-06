@@ -18,12 +18,12 @@ int lcs(string s1, string s2) {
     }
 
     // Fill in the DP table to calculate the length of LCS
-    for (int ind1 = 1; ind1 <= n; ind1++) {
-        for (int ind2 = 1; ind2 <= m; ind2++) {
-            if (s1[ind1 - 1] == s2[ind2 - 1])
-                dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1]; // Characters match, increment LCS length
+    for (int i = 1; i <= n; i++) { 
+        for (int j = 1; j <= m; j++) {
+            if (s1[i- 1] == s2[j - 1])
+                dp[i][j] = 1 + dp[i - 1][j - 1]; // Characters match, increment LCS length
             else
-                dp[ind1][ind2] = max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]); // Characters don't match, consider the maximum from left or above
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]); // Characters don't match, consider the maximum from left or above
         }
     }
 
@@ -31,8 +31,12 @@ int lcs(string s1, string s2) {
 }
 
 int main() {
-    string s1 = "acd";
-    string s2 = "ced";
+   string s1,s2;
+   cout<<"Enter S1: ";
+   cin>>s1;
+   cout<<"Enter S2: ";
+   cin>>s2;
+  
 
     // Call the function to find and output the length of the Longest Common Subsequence
     cout << "The Length of Longest Common Subsequence is " << lcs(s1, s2) << endl;
