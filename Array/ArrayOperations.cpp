@@ -1,13 +1,11 @@
 #include <iostream>
 using namespace std;
-
 void traverse(int arr[], int n)
 {
     for (int i = 0; i < n; i++)
         cout << arr[i] << " ";
     cout << endl;
 }
-///s
 void insertAtBeginning(int arr[], int &n, int value, int capacity)
 {
     if (n >= capacity)
@@ -23,7 +21,6 @@ void insertAtBeginning(int arr[], int &n, int value, int capacity)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 void insertAtEnd(int arr[], int &n, int value, int capacity)
 {
     if (n >= capacity)
@@ -37,7 +34,6 @@ void insertAtEnd(int arr[], int &n, int value, int capacity)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 void insertAtPosition(int arr[], int &n, int value, int position, int capacity)
 {
     if (position < 0 || position > n)
@@ -58,7 +54,6 @@ void insertAtPosition(int arr[], int &n, int value, int position, int capacity)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 void deleteFromBeginning(int arr[], int &n)
 {
     if (n <= 0)
@@ -73,7 +68,6 @@ void deleteFromBeginning(int arr[], int &n)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 void deleteFromEnd(int arr[], int &n)
 {
     if (n <= 0)
@@ -86,7 +80,6 @@ void deleteFromEnd(int arr[], int &n)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 void deleteFromPosition(int arr[], int &n, int position)
 {
     if (position < 0 || position >= n)
@@ -101,7 +94,6 @@ void deleteFromPosition(int arr[], int &n, int position)
     cout << "Your updated array is: " << endl;
     traverse(arr, n);
 }
-
 int linearSearch(int arr[], int n, int key)
 {
     for (int i = 0; i < n; i++)
@@ -111,7 +103,6 @@ int linearSearch(int arr[], int n, int key)
     }
     return -1;
 }
-
 int binarySearch(int arr[], int left, int right, int key)
 {
     if (right >= left)
@@ -125,7 +116,6 @@ int binarySearch(int arr[], int left, int right, int key)
     }
     return -1;
 }
-
 void insertionSort(int arr[], int n)
 {
     for (int i = 0;i<n;i++){
@@ -138,7 +128,6 @@ void insertionSort(int arr[], int n)
         }
     }
 }
-
 int main()
 {
      int capacity = 10; 
@@ -147,21 +136,17 @@ int main()
     int numElements;
     cout << "Enter the number of elements in your array :\n";
     cin >> numElements;
-
     if (numElements > capacity) {
         cout<<"Given array size in not in range set array size default :\n";
         
         numElements  = 10;
     }
-
     cout << "Enter the elements of the array: ";
     for (int i = 0; i < numElements; i++) {
         cin >> arr[i];
     }
     n = numElements; 
-
     bool continueProgram = true;
-
     while (continueProgram)
     {
         cout << "\nMenu:\n";
@@ -178,7 +163,6 @@ int main()
         cout << "Enter your choice: ";
         int choice, value, position;
         cin >> choice;
-
         switch (choice)
         {
         case 1:

@@ -7,7 +7,7 @@ int lcs(string s1, string s2) {
     int n = s1.size();
     int m = s2.size();
 
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1)); // Create a DP table
+     int dp[30][30]; //creating a 2d dp array
 
     // Initialize the base cases
     for (int i = 0; i <= n; i++) {
@@ -36,7 +36,10 @@ int main() {
    cin>>s1;
    cout<<"Enter S2: ";
    cin>>s2;
-  
+     if (s1.size() > 29 || s2.size() > 29) {
+        cout << "Error: Strings cannot exceed 29 characters." << endl;
+        return 1; 
+    }
 
     // Call the function to find and output the length of the Longest Common Subsequence
     cout << "The Length of Longest Common Subsequence is " << lcs(s1, s2) << endl;

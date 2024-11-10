@@ -1,13 +1,11 @@
 #include <iostream>
 using namespace std;
-
 // Structure of our Node
 struct Node {
     int data;
     Node *next;
 };
 Node*head;
-
 // create LinkedList
 Node *CreateLinkedList(int n) {
     Node*head = (Node*)malloc(sizeof(Node));
@@ -24,7 +22,6 @@ Node *CreateLinkedList(int n) {
     }
   return head;
 }
-
 // delete head of the Single Linked List
 Node *deleteHeadOfSingleLL() {
     if (head == NULL) {
@@ -36,14 +33,12 @@ Node *deleteHeadOfSingleLL() {
        cout << "Head deleted.\n";
        return NULL;
     }
-
     Node *temp = head;
     head = head->next;
     free(temp);
     cout << "Head deleted.\n";
     return head;
 }
-
 Node *deleteTailOfSingleLL() {
     if (head == NULL){
           cout<<"List is empty"<<endl;
@@ -51,7 +46,6 @@ Node *deleteTailOfSingleLL() {
          
     } 
     else if (head->next == NULL) {
-       
         free(head);
          cout<<"Tail deleted";
         return head;
@@ -65,22 +59,17 @@ Node *deleteTailOfSingleLL() {
     temp->next = nullptr;
     return head;
 }
-
 // delete after given Node
 Node* deleteAfterLocation(int value) {
     if (head == nullptr) {
         cout << "List is empty!" << endl;
         return nullptr;
     }
-
     Node* temp = head;
-
     // Find the node with the specified value
     while (temp != nullptr && temp->data != value) {
         temp = temp->next;
     }
-
-
     if (temp->data != value) {
         cout << "Node with value " << value << " not found." << endl;
         return head;
@@ -89,29 +78,20 @@ Node* deleteAfterLocation(int value) {
         cout << "No node exists after the node with value " << value << endl;
         return head;
     }
-
     // Node to be deleted
     Node* temp2 = temp->next;
-
     // Remove the node
     temp->next = temp2->next;
-
     // Free the memory
     free(temp2);
-
     return head;
 }
-
 // Insertion
-
 Node*insertAtBeginning(int value){
     Node*temp = (Node*)malloc(sizeof(Node));
     temp->data = value;
     temp->next = head;
     return temp;
-
-    
-
 }
 Node* insertAtEnd(int value){
     Node*temp = head;
@@ -119,8 +99,7 @@ Node* insertAtEnd(int value){
        Node*temp1 = (Node*)malloc(sizeof(Node));
        temp1->data = value;
        temp1->next = nullptr;
-       return temp1;
-        
+       return temp1;  
     }
     while(temp->next!=NULL){
         temp = temp->next;
@@ -130,11 +109,7 @@ Node* insertAtEnd(int value){
     NewNode->next = nullptr;
     temp->next = NewNode;
     return head;
-    
-
 }
-
-
 Node*InsertAfterPosition(int value,int pos){
     if(head==NULL){
         cout<<"List is empty.\n";
@@ -153,11 +128,7 @@ Node*InsertAfterPosition(int value,int pos){
     temp1->next=  temp->next;
     temp->next = temp1;
     return head;
-
-
-
 }
-
 Node*CountNumberOfNodes(){
     Node*temp = head;
     int counter  = 0;
@@ -168,15 +139,12 @@ Node*CountNumberOfNodes(){
     cout<<"No of Nodes is Given Linked List is "<<counter<<endl;
     return head;
 }
-
 Node*ReverseLinkedList(){
     if(head ==NULL){
         return NULL;
-
     }
     if(head->next==nullptr){
         return head;
-
     }
      Node*current= head;
      Node*prev = nullptr;
@@ -186,14 +154,10 @@ Node*ReverseLinkedList(){
         current->next = prev;
         prev = current;
         current = save;
-
      }
      head = prev;
      return head;
-
 }
-
-
 void display(Node*head) {
     if (head == NULL) {
         return ;
@@ -204,19 +168,15 @@ void display(Node*head) {
     }
     cout << endl;
 }
-
 int main() {
     int choice, subchoice, k, n, value,pos;
-
     cout << "Enter the number of elements in the Linked List: ";
     cin >> n;
     if(n>=30 || n<=0){
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
-   
  head = CreateLinkedList(n);
-
      do {
         cout << "\nMenu:\n";
         cout << "1. Insert\n";
@@ -227,7 +187,6 @@ int main() {
         cout << "6. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:  // Insert Menu
                 cout << "\nInsert Menu:\n";
@@ -236,16 +195,13 @@ int main() {
                 cout << "3. Insert at Position\n";
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 cout << "Enter the value to insert: ";
                 cin >> value;
-
                 switch (subchoice) {
                     case 1:
                         head = insertAtBeginning(value);
                         display(head);
                         cout<<"Element successfully insert at beggining.\n";
-
                         break;
                     case 2:
                         head = insertAtEnd( value);
@@ -255,8 +211,6 @@ int main() {
                     case 3:
                         cout << "Enter the value after which new Node insert: ";
                         cin >> pos;
-                        
-            
                         head = InsertAfterPosition( value,pos);
                         display(head);
                         break;
@@ -264,16 +218,13 @@ int main() {
                         cout << "Invalid choice! Please try again.\n";
                 }
                 break;
-
              case 2:  // Delete Menu
                 cout << "\nDelete Menu:\n";
                 cout << "1. Delete Head\n";
                 cout << "2. Delete Tail\n";
                 cout << "3. Delete After  Position\n";
-               
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 switch (subchoice) {
                     case 1:
                          head = deleteHeadOfSingleLL();
@@ -291,14 +242,10 @@ int main() {
                         head = deleteAfterLocation( value);
                         display(head);
                         break;
-                   
-
-
                     default:
                         cout << "Invalid choice! Please try again.\n";
               }
                 break;
-
             case 3:
                 display(head);
                 break;
@@ -309,17 +256,12 @@ int main() {
                head  = ReverseLinkedList();
                display(head);
                break;
-
-                
-
             case 6:
                 cout << "Exiting...\n";
                 break;
-
             default:
                 cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 6);
-
     return 0;
 }

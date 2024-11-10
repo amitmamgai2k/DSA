@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void addEdge(vector<vector<int>> &mat, int i, int j, bool directed) {
+void addEdge( int mat[50][50], int i, int j, bool directed) {
     mat[i][j] = 1;
     if (!directed) {
         mat[j][i] = 1; // Only add reverse edge if undirected
@@ -29,7 +29,7 @@ int main() {
     cin >> directed;
 
     // Create an n x n matrix initialized to 0 (no edges)
-    vector<vector<int>> mat(n, vector<int>(n, 0));
+    int mat[50][50];
 
     // Add edges based on user input
     for (int i = 0; i < m; i++) {

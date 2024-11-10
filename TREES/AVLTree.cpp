@@ -93,7 +93,6 @@ Node* insert(Node* root, int value) {
         return leftRotation(root);
     }
 
-    // Return the (unchanged) node pointer
     return root;
 }
 Node*Delete(Node*root,int value){
@@ -142,30 +141,30 @@ Node*Delete(Node*root,int value){
         }
 
     }
-    // update height
-    root->height = 1+max(getheight(root->left),getheight(root->right));
-    // check balance
-    int balance = getBalanceFactor(root);
-     // Left Left Case
-    if (balance > 1 && value < root->left->data) {
-        return rightRotation(root);
-    }
-    // Right Right Case
-    if (balance < -1 && value > root->right->data) {
-        return leftRotation(root);
-    }
-    // Left Right Case
-    if (balance > 1 && value > root->left->data) {
-        root->left = leftRotation(root->left);
-        return rightRotation(root);
-    }
-    // Right Left Case
-    if (balance < -1 && value < root->right->data) {
-        root->right = rightRotation(root->right);
-        return leftRotation(root);
-    
-    }
-    return root;
+   // update height
+root->height = 1 + max(getheight(root->left), getheight(root->right));
+// check balance
+int balance = getBalanceFactor(root);
+
+// Left Left Case
+if (balance > 1 && getBalanceFactor(root->left) >= 0) {
+    return rightRotation(root);
+}
+// Left Right Case
+if (balance > 1 && getBalanceFactor(root->left) < 0) {
+    root->left = leftRotation(root->left);
+    return rightRotation(root);
+}
+// Right Right Case
+if (balance < -1 && getBalanceFactor(root->right) <= 0) {
+    return leftRotation(root);
+}
+// Right Left Case
+if (balance < -1 && getBalanceFactor(root->right) > 0) {
+    root->right = rightRotation(root->right);
+    return leftRotation(root);
+}
+return root;
 
    
 
