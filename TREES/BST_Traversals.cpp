@@ -1,22 +1,16 @@
 #include <iostream>
 using namespace std;
-
 // Node structure for binary tree
 struct Node {
     int data;
     Node* right;
     Node* left;
 };
-
-
 struct StackNode {
     Node* data;
     StackNode* next;
 };
-
 StackNode* top = nullptr;
-
-
 void Push(Node* node) {
     StackNode* temp = (StackNode*)malloc(sizeof(StackNode));
     if (temp == nullptr) {
@@ -27,7 +21,6 @@ void Push(Node* node) {
     temp->next = top;
     top = temp;
 }
-
 Node* Pop() {
     if (top == nullptr) {
         cout << "Stack is empty" << endl;
@@ -39,17 +32,13 @@ Node* Pop() {
     free(temp);
     return value;
 }
-
 bool isEmpty() {
     return top == nullptr;
 }
-
-
 Node* insert(Node* root, int value) {
     if (value == -1) {
-        return nullptr; 
+        return nullptr;
     }
-
     if (root == nullptr) {
         Node* newNode = (Node*)malloc(sizeof(Node));
         newNode->data = value;
@@ -58,7 +47,6 @@ Node* insert(Node* root, int value) {
         cout << value << " Inserted Successfully\n";
         return newNode;
     }
-
     if (value < root->data) {
         root->left = insert(root->left, value);
     } else if (value > root->data) {
@@ -66,18 +54,14 @@ Node* insert(Node* root, int value) {
     }
     return root;
 }
-
-
 void preorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
     Push(root);
-
     while (!isEmpty()) {
         Node* temp = Pop();
         cout << temp->data << " ";
-        
         if (temp->right) {
             Push(temp->right);
         }
@@ -87,31 +71,26 @@ void preorderTraversal(Node* root) {
     }
     cout << endl;
 }
-
 void inorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
-
     Node* current = root;
     while (current != nullptr || !isEmpty()) {
         while (current != nullptr) {
             Push(current);
             current = current->left;
         }
-
         current = Pop();
         cout << current->data << " ";
         current = current->right;
     }
     cout << endl;
 }
-
 void postorderTraversal(Node* root) {
     if (root == nullptr) {
         return;
     }
-
     Node* current = root;
     while (current != nullptr || !isEmpty()) {
         while (current != nullptr) {
@@ -121,7 +100,6 @@ void postorderTraversal(Node* root) {
             }
             current = current->left;
         }
-
         current = Pop();
         if ((intptr_t)current < 0) {
             current = (Node*)(-1 * (intptr_t)current);
@@ -132,11 +110,9 @@ void postorderTraversal(Node* root) {
     }
     cout << endl;
 }
-
 int main() {
     Node* root = nullptr;
     int value;
-
     cout << "Enter values to insert into the tree (-1 to stop):\n";
     while (true) {
         cout << "Enter value: ";
@@ -144,7 +120,6 @@ int main() {
         if (value == -1) break;
         root = insert(root, value);
     }
-
     int choice;
     do {
         cout << "\nBinary Tree Traversal Menu:\n";
@@ -154,7 +129,6 @@ int main() {
         cout << "4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:
                 cout << "Preorder Traversal: ";
@@ -175,6 +149,5 @@ int main() {
                 cout << "Invalid choice. Please try again.\n";
         }
     } while (choice != 4);
-
     return 0;
 }

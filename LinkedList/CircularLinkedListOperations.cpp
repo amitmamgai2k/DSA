@@ -1,14 +1,11 @@
 #include <iostream>
-
 using namespace std;
-
 // Structure of our Node
 struct Node {
     int data;
     Node *next;
 };
 Node*head;
-
 // create CircularLink
 Node*createCircularLinkedList(int n) {
   Node*head= (Node*)malloc(sizeof(Node));
@@ -26,8 +23,6 @@ Node*createCircularLinkedList(int n) {
   }
    return head;
 }
-
-
 // delete head of the Circular Linked Listss
 Node *deleteHeadOfCircularLL() {
     if (head == NULL) {
@@ -35,9 +30,9 @@ Node *deleteHeadOfCircularLL() {
   return NULL;
     }
       if (head->next == head) {
-        free(head); 
+        free(head);
         cout<<"Head Deleted";
-        return nullptr; 
+        return nullptr;
     }
     Node *temp = head;
     while(temp->next!=head){
@@ -48,21 +43,17 @@ Node *deleteHeadOfCircularLL() {
     free(head);
     cout<<"Head deleted";
    return newHead;
-
-
-    
 }
 // deleteTail///
-
 Node *deleteTailOfCircularLL() {
       if (head == NULL) {
       cout<<"List is empty";
       return NULL;
     }
       if (head->next == head) {
-        free(head); 
+        free(head);
         cout<<"Tail Deleted";
-        return nullptr; 
+        return nullptr;
     }
     Node *temp = head;
     while (temp->next->next != head) {
@@ -74,16 +65,13 @@ Node *deleteTailOfCircularLL() {
     cout<<"Tail deleted";
     return head;
 }
-
 Node* deleteAfterLocation(int value) {
     if (head == NULL) {
         // Print error message if the list is empty
         cout << "List is empty!" << endl;
         return NULL;
     }
-
     Node* temp = head;
-
     // Find the node with the specified value
     do {
         if (temp->data == value) {
@@ -97,28 +85,20 @@ Node* deleteAfterLocation(int value) {
         cout << "Node with value " << value << " not found." << endl;
         return head;
     }
-
     // Check if there is a node to delete after the found node
     if (temp->next == head) {
         cout << "No node to delete after the node with value " << value << "." << endl;
         return head;
     }
-
     // Node to be deleted
     Node* nodeToDelete = temp->next;
-
     // Remove the node
     temp->next = nodeToDelete->next;
-
     // Free the memory
     free (nodeToDelete);
-
     return head;
 }
-
-
 // Insert at start
-
 Node*InsertAtBeggining(int value){
     Node*temp = (Node*)malloc(sizeof(Node));
     temp->data = value;
@@ -131,38 +111,28 @@ Node*InsertAtBeggining(int value){
     Node*tail = head;
     while(tail->next!=head){
         tail  =  tail->next;
-
     }
     tail->next = temp;
     temp->next = head;
     head = temp;
     return head;
-
 }
-
 //Insert at end
 Node*insertAtEnd(int value){
-    
      Node*NewNode = (Node*)malloc(sizeof(Node));
      NewNode->data = value;
      if(head ==NULL){
-        
         NewNode->next = NewNode;
        return NewNode;
-        
      }
     Node*temp = head;
      while(temp->next !=head){
         temp =temp->next;
-
      }
-     
      temp->next = NewNode;
      NewNode->next= head;
      return head;
-
 }
-
 // Insert after position
 Node*InsertAfterPosition(int value,int pos){
     if(head==NULL){
@@ -173,7 +143,6 @@ Node*InsertAfterPosition(int value,int pos){
      while (temp->next != head && temp->data != pos) {
         temp = temp->next;
     }
-  
     if(temp->data!=pos){
         cout<<"Node with given value not exist"<<endl;
     }
@@ -182,19 +151,12 @@ Node*InsertAfterPosition(int value,int pos){
     temp1->next=  temp->next;
     temp->next = temp1;
     return head;
-
-
-
 }
-
-
-
 void display(Node* head) {
     if (head == nullptr) {
-        
+
         return;
     }
-
     Node* temp= head;
     do {
         cout << temp->data << " ";
@@ -203,21 +165,15 @@ void display(Node* head) {
 
     cout << endl;
 }
-
 int main() {
     int choice, subchoice, k, n, value,pos;
-
     cout << "Enter the number of elements in the Linked List: ";
     cin >> n;
     if(n>=30 || n<0){
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
-    
-    
-
     head=  createCircularLinkedList(n);
-
      do {
         cout << "\nMenu:\n";
         cout << "1. Insert\n";
@@ -226,7 +182,6 @@ int main() {
         cout << "4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:  // Insert Menu
                 cout << "\nInsert Menu:\n";
@@ -235,16 +190,13 @@ int main() {
                 cout << "3. Insert after Position\n";
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 cout << "Enter the value to insert: ";
                 cin >> value;
-
                 switch (subchoice) {
                     case 1:
                         head = InsertAtBeggining(value);
                         display(head);
                         cout<<"Element successfully insert at beggining.\n";
-
                         break;
                     case 2:
                         head = insertAtEnd( value);
@@ -254,8 +206,6 @@ int main() {
                     case 3:
                         cout << "Enter the value after which new Node insert: ";
                         cin >> pos;
-                        
-            
                         head = InsertAfterPosition(value,pos);
                         display(head);
                         break;
@@ -263,26 +213,21 @@ int main() {
                         cout << "Invalid choice! Please try again.\n";
                 }
                 break;
-
              case 2:  // Delete Menu
                 cout << "\nDelete Menu:\n";
                 cout << "1. Delete Head\n";
                 cout << "2. Delete Tail\n";
                 cout << "3. Delete After  Position\n";
-               
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 switch (subchoice) {
                     case 1:
                          head =deleteHeadOfCircularLL();
                          display(head);
-                        
                          break;
                     case 2:
                             head =deleteTailOfCircularLL();
                             display(head);
-                         
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";
@@ -290,25 +235,19 @@ int main() {
                         head = deleteAfterLocation( value);
                         display(head);
                         break;
-                   
-
-
                     default:
                         cout << "Invalid choice! Please try again.\n";
               }
                 break;
-
             case 3:
                 display(head);
                 break;
             case 4:
                 cout << "Exiting...\n";
                 break;
-
             default:
                 cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 4);
-
     return 0;
 }

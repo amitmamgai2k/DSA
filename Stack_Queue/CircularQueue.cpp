@@ -4,16 +4,14 @@ struct Node {
     int data;
     Node* next;
 };
-
-const int MAX_SIZE = 30;  
-int Queue[MAX_SIZE];      
+const int MAX_SIZE = 30;
+int Queue[MAX_SIZE];
 int front = -1;
-int rear = -1; 
-int Size;  
+int rear = -1;
+int Size;
 // Front and rear pointers for the linked list queue
 Node* frontList = nullptr;
 Node* rearList = nullptr;
-
 void displayArrayQueue() {
     if (front == -1) {
         cout << "Queue is Empty" << endl;
@@ -23,12 +21,11 @@ void displayArrayQueue() {
     int i = front;
     while (true) {
         cout << Queue[i] << " ";
-        if (i == rear) break; 
-        i = (i + 1) % Size;   
+        if (i == rear) break;
+        i = (i + 1) % Size;
     }
     cout << endl;
 }
-
 void displayLinkedListQueue() {
     if (frontList == nullptr) {
         cout << "Linked list queue is empty" << endl;
@@ -42,7 +39,6 @@ void displayLinkedListQueue() {
     } while (temp != frontList);
     cout << endl;
 }
-
 void EnqueueArray() {
     if ((rear + 1) % Size == front) {
         cout << "Queue is full" << endl;
@@ -51,7 +47,6 @@ void EnqueueArray() {
     int value;
     cout << "Enter the value to Enqueue: ";
     cin >> value;
-
     if (front == -1) {
         front = 0;  // Set front to 0 when the first element is added
     }
@@ -60,15 +55,13 @@ void EnqueueArray() {
     cout << value << " successfully Enqueued in Array Queue" << endl;
     displayArrayQueue();
 }
-
-
 void DequeueArray() {
     if (front == -1) {
         cout << "Queue is empty, nothing to Dequeue" << endl;
         return;
     }
     int value = Queue[front];
-    if (front == rear) {  
+    if (front == rear) {
         front = rear = -1;
     } else {
         front = (front + 1) % Size;
@@ -76,20 +69,16 @@ void DequeueArray() {
     cout << value << " successfully Dequeued from Array Queue" << endl;
     displayArrayQueue();
 }
-
-
 void EnqueueLinkedList() {
     int value;
     cout << "Enter the value to Enqueue: ";
     cin >> value;
-
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = value;
     newNode->next = nullptr;
-
     if (frontList == nullptr) {
         frontList = rearList = newNode;
-        newNode->next = frontList;  
+        newNode->next = frontList;
     } else {
         rearList->next = newNode;
         newNode->next = frontList;
@@ -98,14 +87,13 @@ void EnqueueLinkedList() {
     cout << value << " successfully Enqueued in Linked List Queue" << endl;
     displayLinkedListQueue();
 }
-
 void DequeueLinkedList() {
     if (frontList == nullptr) {
         cout << "Queue is empty, nothing to Dequeue" << endl;
         return;
     }
     int value = frontList->data;
-    if (frontList == rearList) { 
+    if (frontList == rearList) {
         free(frontList);
         frontList = rearList = nullptr;
     } else {
@@ -117,16 +105,13 @@ void DequeueLinkedList() {
     cout << value << " successfully Dequeued from Linked List Queue" << endl;
     displayLinkedListQueue();
 }
-
 int main() {
     int choice, queueType;
-
     cout << "Choose the type of Queue:\n";
     cout << "1.Circular Queue using Array\n";
     cout << "2.Circular Queue using Linked List\n";
     cout << "Enter your choice: ";
     cin >> queueType;
-
     if (queueType == 1) {
         cout << "Enter the size of the Array Queue (MAX 30): ";
         cin >> Size;
@@ -136,7 +121,6 @@ int main() {
             return -1;
         }
     }
-
     do {
         cout << "\nMenu:\n";
         cout << "1. Enqueue\n";
@@ -145,7 +129,6 @@ int main() {
         cout << "4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:
                 if (queueType == 1) {
@@ -175,6 +158,5 @@ int main() {
                 cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 4);
-
     return 0;
 }

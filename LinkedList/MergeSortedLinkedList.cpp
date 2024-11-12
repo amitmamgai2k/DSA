@@ -1,11 +1,9 @@
 #include <iostream>
 using namespace std;
-
 struct Node {
     int data;
     Node* next;
 };
-
 Node* CreateLinkedList(int n) {
     if (n <= 0) return nullptr;
 
@@ -25,7 +23,6 @@ Node* CreateLinkedList(int n) {
     }
     return head;
 }
-
 Node* MergeLinkedList(Node* head1, Node* head2) {
     Node* dummyNode = (Node*)malloc(sizeof(Node));
     Node* temp = dummyNode;
@@ -34,7 +31,7 @@ Node* MergeLinkedList(Node* head1, Node* head2) {
         if (head1->data < head2->data) {
             temp->next = head1;
             head1 = head1->next;
-        } 
+        }
         else if (head1->data > head2->data) {
             temp->next = head2;
             head2 = head2->next;
@@ -44,16 +41,14 @@ Node* MergeLinkedList(Node* head1, Node* head2) {
             head1 = head1->next;
             head2 = head2->next;
         }
-        temp = temp->next; 
+        temp = temp->next;
     }
-
     // the remaining nodes
     if (head1 != nullptr) temp->next = head1;
     if (head2 != nullptr) temp->next = head2;
 
     return dummyNode->next; // Return merged list
 }
-
 void Display(Node* head) {
     if (head == nullptr) {
         cout << "List is empty!" << endl;
@@ -65,7 +60,6 @@ void Display(Node* head) {
     }
     cout << endl;
 }
-
 int main() {
     int n, m;
     cout << "Enter the number of elements in the Linked List 1: ";
@@ -74,7 +68,6 @@ int main() {
         cout << "Linked List Size should be less than 30 and greater than or equal to one.";
         return 1;
     }
-
     Node* head1 = CreateLinkedList(n);
     cout << "LinkedList 1: " << endl;
     Display(head1);
@@ -85,11 +78,9 @@ int main() {
         cout << "Linked List Size should be less than 30 and greater than or equal to one.";
         return 1;
     }
-
     Node* head2 = CreateLinkedList(m);
     cout << "LinkedList 2: " << endl;
     Display(head2);
-
     Node* head = MergeLinkedList(head1, head2);
     cout << "Merged Linked List: " << endl;
     Display(head);

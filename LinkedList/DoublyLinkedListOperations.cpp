@@ -1,15 +1,11 @@
 #include <iostream>
 using namespace std;
-
-
 struct Node{
     int data;
      Node*next;
      Node*back;
-
 };
 Node*head;
-//s
 Node*createdoubleLinkedList(int n){
     if(n<=0){
         cout<<"Number of nodes should be greater than 0.\n";
@@ -29,10 +25,8 @@ Node*createdoubleLinkedList(int n){
         temp->back = prev;
         prev->next = temp;
         prev = temp;
-
     }
     return head;
-    
 }
 //Insertions
 Node*InsertAtBeggining(int value) {
@@ -43,14 +37,12 @@ Node*InsertAtBeggining(int value) {
     if (head != NULL) {
         head->back = temp;
     }
-
     head = temp;
     return head;
 }
 Node*InsertAtEnd(int value){
     Node*EndNode = (Node*)malloc(sizeof(Node));
     EndNode->data = value;
-    
     if(head==NULL){
         head  = EndNode;
         head->next  = nullptr;
@@ -65,9 +57,8 @@ Node*InsertAtEnd(int value){
     EndNode->next = nullptr;
     EndNode->back = tail;
     return head;
-
 }
-Node*InsertAfterPosition(int pos, int value){ //pos is the Node value after which we insert new Node 
+Node*InsertAfterPosition(int pos, int value){ //pos is the Node value after which we insert new Node
      if(head==NULL){
         cout<<"List is empty.\n";
         return head;
@@ -90,14 +81,12 @@ Node*InsertAfterPosition(int pos, int value){ //pos is the Node value after whic
         NewNode->next->back = NewNode;
     }
     return head;
-
 }
 Node*DeleteHead(){
     if(head==NULL){
         cout<<"List is empty"<<endl;
         return NULL;
     }
-    
     if(head->next ==NULL ){
         free(head);
          cout<<"Head deleted";
@@ -108,9 +97,7 @@ Node*DeleteHead(){
     head->back = nullptr;
     free(temp);
     cout<<"Head deleted";
-   
     return head;
-    
 }
 Node*DeleteTail(){
     if(head==NULL){
@@ -118,7 +105,6 @@ Node*DeleteTail(){
         return NULL;
     }
     if (head->next == NULL) {
-
         free(head);
         cout << "Tail deleted.\n";
         return NULL;
@@ -131,10 +117,6 @@ Node*DeleteTail(){
      cout << "Tail deleted.\n";
     tail->next = nullptr;
     return head;
-
-//s.
-
-
 }
 Node*DeleteAfterLocation(int pos){
       if(head==NULL){
@@ -144,22 +126,18 @@ Node*DeleteAfterLocation(int pos){
     Node*temp = head;
     while(temp!=NULL && temp->data!=pos){
         temp = temp->next;
-
     }
       if (temp == NULL || temp->next == NULL) {
         cout << "Node with value " << pos << " not found or there is no node after it." << endl;
         return head;
       }
-
     Node*temp1 = temp->next;
      if (temp1->next != NULL) {
         temp1->next->back = temp;
     }
    temp->next = temp1->next;
    free(temp1);
-   
    return head;
-   
 }
 void display(Node*head){
     while(head!=NULL){
@@ -167,7 +145,6 @@ void display(Node*head){
         head = head->next;
     }
     cout<<endl;
-
 }
 int main(){
     int n,choice,subchoice,value,pos;
@@ -177,7 +154,6 @@ int main(){
         cout<<"Linked List Size should be less than 30 and greater than or equal to one";
         return 1;
     }
-   
     head = createdoubleLinkedList(n);
     do {
         cout << "\nMenu:\n";
@@ -187,7 +163,6 @@ int main(){
         cout << "4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:  // Insert Menu
                 cout << "\nInsert Menu:\n";
@@ -196,16 +171,13 @@ int main(){
                 cout << "3. Insert after Position\n";
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 cout << "Enter the value to insert: ";
                 cin >> value;
-
                 switch (subchoice) {
                     case 1:
                         head = InsertAtBeggining(value);
                         display(head);
                         cout<<"Element successfully insert at beggining.\n";
-
                         break;
                     case 2:
                         head = InsertAtEnd( value);
@@ -215,8 +187,6 @@ int main(){
                     case 3:
                         cout << "Enter the value after which new Node insert: ";
                         cin >> pos;
-                        
-            
                         head = InsertAfterPosition(pos,value);
                         display(head);
                         break;
@@ -224,32 +194,21 @@ int main(){
                         cout << "Invalid choice! Please try again.\n";
                 }
                 break;
-
              case 2:  // Delete Menu
                 cout << "\nDelete Menu:\n";
                 cout << "1. Delete Head\n";
                 cout << "2. Delete Tail\n";
                 cout << "3. Delete After  Position\n";
-               
                 cout << "Enter your choice: ";
                 cin >> subchoice;
-
                 switch (subchoice) {
                     case 1:
                          head =DeleteHead();
-
                          display(head);
-                      
-
-
-                       
-
-                    
                          break;
                     case 2:
                             head =DeleteTail();
                             display(head);
-                           
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";
@@ -257,27 +216,19 @@ int main(){
                         head = DeleteAfterLocation( pos);
                         display(head);
                         break;
-                   
-
-
                     default:
                         cout << "Invalid choice! Please try again.\n";
               }
                 break;
-
             case 3:
                 display(head);
                 break;
             case 4:
                 cout << "Exiting...\n";
                 break;
-
             default:
                 cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 4);
-
     return 0;
 }
-
-//sss

@@ -1,10 +1,8 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
-
 char stack[100];
 int top = -1;
-
 // Push function
 void push(char data)
 {
@@ -18,7 +16,6 @@ void push(char data)
         cout << "Stack Overflow" << endl;
     }
 }
-
 // Pop function
 char pop()
 {
@@ -34,7 +31,6 @@ char pop()
         return '\0';
     }
 }
-
 // Peek function
 char peek()
 {
@@ -47,7 +43,6 @@ char peek()
         return '\0';
     }
 }
-
 // Function to check the precedence
 int precedence(char c)
 {
@@ -68,7 +63,6 @@ int precedence(char c)
         return -1;
     }
 }
-
 // Function to convert infix to postfix notation
 string infixToPostFix(string s)
 {
@@ -96,7 +90,6 @@ string infixToPostFix(string s)
             push(s[i]);
             Counter++;
         }
-
         else if (s[i] == ')')
         {
             while (top != -1 && peek() != '(')
@@ -124,13 +117,11 @@ string infixToPostFix(string s)
             push(s[i]);
         }
     }
-
     // Pop all remaining operators from the stack
     while (top != -1)
     {
         result += pop();
     }
-
     // Check for any remaining unbalanced parentheses
     if (Counter != 0)
     {
@@ -139,15 +130,12 @@ string infixToPostFix(string s)
     }
     return result;
 }
-
 // Function to evaluate the postfix expression using the same stack
 int evaluatePostfixExpression(string s)
 {
     top = -1;
-
     for (int i = 0; i < s.length(); i++)
     {
-
         if (s[i] >= '0' && s[i] <= '9')
         {
             push(s[i] - '0'); // Convert char digit to int and push
@@ -158,7 +146,6 @@ int evaluatePostfixExpression(string s)
             int op2 = pop(); // Second operand
             int op1 = pop(); // First operand
             int result;
-
             switch (s[i])
             {
             case '+':
@@ -184,27 +171,23 @@ int evaluatePostfixExpression(string s)
         }
         else
         {
-
             cout << "Cannot evaluate expressions with variables." << endl;
             return -1;
         }
     }
     return pop();
 }
-
 int main()
 {
     string infixExpression;
     // Infix expression input
     cout << "Enter an infix expression: ";
     cin >> infixExpression;
-
     // Conversion to postfix
     string postfixExpression = infixToPostFix(infixExpression);
     if (!postfixExpression.empty())
     {
         cout << "Postfix expression: " << postfixExpression << endl;
-
         bool containsVariable = false;
         for (char c : postfixExpression)
         {
@@ -214,7 +197,6 @@ int main()
                 break;
             }
         }
-
         if (containsVariable)
         {
             cout << "Evaluation not possible with variables." << endl;
@@ -229,6 +211,5 @@ int main()
             }
         }
     }
-
     return 0;
 }

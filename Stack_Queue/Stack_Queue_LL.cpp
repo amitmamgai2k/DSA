@@ -7,8 +7,7 @@ struct Node{
 Node*front = nullptr;
 Node*rear = nullptr;
 Node*top = nullptr;
-
-// Push operation 
+// Push operation
 void Push(){
     int value;
     cout<<"Enter the Value to Push: "<<endl;
@@ -37,7 +36,7 @@ void peek(){
         return ;
     }
     cout<<"Top Element is: "<<top->data;
-   
+
 }
 void displayQueue(){
     if(front==nullptr){
@@ -51,7 +50,6 @@ void displayQueue(){
         temp = temp->next;
     }
     cout<<endl;
-
 }
 void enqueue(){
     int value;
@@ -60,7 +58,6 @@ void enqueue(){
     Node* temp = (Node*)malloc(sizeof(Node));
     temp->data = value;
     temp->next = nullptr;
-
     if (rear == nullptr) {
         // First element in the queue
         front = rear = temp;
@@ -72,12 +69,10 @@ void enqueue(){
 
     displayQueue();
     }
-
 int dequeue(){
     if(front==nullptr){
         cout<<"Queue is empty"<<endl;
         return -1;
-
     }
     int value = front->data;
     Node*temp = front;
@@ -86,10 +81,8 @@ int dequeue(){
     cout<<value<<" Successfully dequeue "<<endl;
     return value;
      displayQueue();
-
 }
 int main(){
-
 int choice ,dataType;
     cout << "Choose the type of Data structure:\n";
     cout << "1.Stack\n";
@@ -105,7 +98,6 @@ int choice ,dataType;
                 cout << "4. Exit\n";
                 cout << "Enter your choice: ";
                 cin >> choice;
-
                 switch (choice) {
                     case 1:
                        Push();
@@ -126,7 +118,6 @@ int choice ,dataType;
                     default:
                         cout << "Invalid choice, please try again.\n";
                 }
-
             } while (choice != 4);
         } else if (dataType==2) {
             do {
@@ -137,41 +128,31 @@ int choice ,dataType;
                 cout << "4. Exit\n";
                 cout << "Enter your choice: ";
                 cin >> choice;
-
                 switch (choice) {
                     case 1:
                         enqueue();
-                       
                         break;
-
                     case 2:
                         dequeue();
-                
                         break;
-
                     case 3:
                         displayQueue();
                         break;
-
                     case 4:
                         cout << "Returning to initial menu.\n";
                         break;
-
                     default:
                         cout << "Invalid choice, please try again.\n";
                 }
-
             } while (choice != 4);
         }
         else{
             cout<<"Invalid choice"<<endl;
             return -1;
         }
-
-
 return 0;
-    } 
+    }
 
 
 
-    
+

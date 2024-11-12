@@ -1,7 +1,5 @@
-#include <iostream>
+#include <iostream
 using namespace std;
-
-
 int stack[20];
 int top = -1;
 void push(int data,int size) {
@@ -12,28 +10,25 @@ void push(int data,int size) {
         } else {
             cout << "Stack overflow" << endl;
         }
-        
-    }
 
+    }
     void pop() {
         if (top >= 0) {
              cout<<stack[top]<<" pop successfully"<<endl;
             top--;
-           
+
         } else {
             cout << "Stack Underflow" << endl;
         }
     }
-
     int peek() {
         if (top >= 0) {
             return stack[top];
         } else {
             cout << "Stack is empty" << endl;
-            return -1; 
+            return -1;
         }
     }
-
 int main() {
   int size,choice,data ;
   cout<<"Enter Stack Size( Stack size should be greater than 0 and less than 20)"<<endl;
@@ -42,10 +37,7 @@ int main() {
     {
         cout << "Invalid size. Please set an appropriate Stack size between 1 and 20." << endl;
         return-1;
-
     }
-
-
   do {
         cout << "\nMenu:\n";
         cout << "1. Push\n";
@@ -54,7 +46,6 @@ int main() {
         cout << "4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
         switch (choice) {
             case 1:
             cout << "Enter the element to push: ";
@@ -76,6 +67,5 @@ int main() {
                 cout << "Invalid choice! Please try again.\n";
         }
     } while (choice != 4);
-
    return 0;
 }

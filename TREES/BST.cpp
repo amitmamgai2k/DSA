@@ -8,8 +8,6 @@ struct Node {
 };
 
 Node* insert(Node* root, int value) {
-   
-
     if (root == nullptr) {
         Node* newNode = (Node*)malloc(sizeof(Node));
         newNode->data = value;
@@ -18,8 +16,6 @@ Node* insert(Node* root, int value) {
         cout << value << " Inserted Successfully\n";
         return newNode;
     }
-
-
     if (value < root->data) {
         root->left = insert(root->left, value);
     } else if (value > root->data) {
@@ -119,8 +115,6 @@ void postorder(Node* root) {
 int main() {
     Node* root = nullptr;
     int choice, value;
-    
-   
 
     while (true) {
         cout << "\nMenu:\n";
@@ -136,17 +130,20 @@ int main() {
 
         switch (choice) {
             case 1:
-                cout << "Enter value to insert: ";
-                cin >> value;
-                root = insert(root, value);
+                cout << "Enter values to insert (enter -1 to stop): ";
+                while (true) {
+                    cin >> value;
+                    if (value == -1) {
+                        break;
+                    }
+                    root = insert(root, value);
+                }
                 break;
-
             case 2:
                 cout << "Enter value to delete: ";
                 cin >> value;
                 root = Delete(root, value);
                 break;
-
             case 3:
                 cout << "Enter value to search: ";
                 cin >> value;
@@ -156,32 +153,27 @@ int main() {
                     cout << "Value " << value << " not found in the BST.\n";
                 }
                 break;
-
             case 4:
                 cout << "Inorder traversal: ";
                 inorder(root);
                 cout << endl;
                 break;
-
             case 5:
                 cout << "Preorder traversal: ";
                 preorder(root);
                 cout << endl;
                 break;
-
             case 6:
                 cout << "Postorder traversal: ";
                 postorder(root);
                 cout << endl;
                 break;
-
             case 7:
                 cout << "Exiting...\n";
                 return 0;
-
             default:
                 cout << "Invalid choice. Please try again.\n";
                 break;
         }
     }
-}
+}//ssss
