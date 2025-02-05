@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 void traverse(int arr[], int n)
 {
     for (int i = 0; i < n; i++)
@@ -130,22 +131,22 @@ void insertionSort(int arr[], int n)
 }
 int main()
 {
-     int capacity = 10; 
+     int capacity = 10;
     int arr[capacity];
-    int n = 0; 
+    int n = 0;
     int numElements;
     cout << "Enter the number of elements in your array :\n";
     cin >> numElements;
     if (numElements > capacity) {
         cout<<"Given array size in not in range set array size default :\n";
-        
+
         numElements  = 10;
     }
     cout << "Enter the elements of the array: ";
     for (int i = 0; i < numElements; i++) {
         cin >> arr[i];
     }
-    n = numElements; 
+    n = numElements;
     bool continueProgram = true;
     while (continueProgram)
     {

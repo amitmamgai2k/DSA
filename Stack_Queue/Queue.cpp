@@ -48,7 +48,7 @@ int Dequeue() {
     Display();
     return 1;
 }
-__STDC_UTF_32__ main() {
+int main() {
     int choice;
     cout << "Enter the size of the Queue (MAX 30): ";
     cin >> MAX;

@@ -43,8 +43,8 @@ Node *deleteTailOfSingleLL() {
     if (head == NULL){
           cout<<"List is empty"<<endl;
      return NULL;
-         
-    } 
+
+    }
     else if (head->next == NULL) {
         free(head);
          cout<<"Tail deleted";
@@ -99,7 +99,7 @@ Node* insertAtEnd(int value){
        Node*temp1 = (Node*)malloc(sizeof(Node));
        temp1->data = value;
        temp1->next = nullptr;
-       return temp1;  
+       return temp1;
     }
     while(temp->next!=NULL){
         temp = temp->next;
@@ -229,12 +229,12 @@ int main() {
                     case 1:
                          head = deleteHeadOfSingleLL();
                          display(head);
-                       
+
                          break;
                     case 2:
                             head = deleteTailOfSingleLL();
                             display(head);
-                           
+
                             break;
                     case 3:
                        cout << "Enter the value of the node after which you want to delete the next node: ";

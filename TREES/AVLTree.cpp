@@ -93,11 +93,13 @@ Node*Delete(Node*root,int value){
         root->right = Delete(root->right,value);
     }
     else{
+        //no child
         if(root->left ==nullptr && root->right ==nullptr){
             free(root);
             cout << value << " Successfully deleted\n";
             return nullptr;
         }
+        //no right child
         else if(root->left!=nullptr && root->right ==nullptr){
             Node*temp = root->left;
             free(root);
@@ -105,6 +107,7 @@ Node*Delete(Node*root,int value){
             return temp;
 
         }
+        //no left child
        else if(root->left ==nullptr && root->right!=nullptr){
             Node*temp = root->right;
             free(root);

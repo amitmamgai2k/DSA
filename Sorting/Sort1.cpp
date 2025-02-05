@@ -56,7 +56,7 @@ void countSort(int arr[], int size) {
         }
     }
 }
-// Function to heapify a subtree rooted with node i (0-based index)
+
 void heapify(int arr[], int n, int i) {
     int left = 2 * i + 1;  // Left child (0-based index)
     int right = 2 * i + 2; // Right child (0-based index)
@@ -90,46 +90,40 @@ void heapSort(int arr[], int n) {
     }
 }
 // Bucket Sort
-void bucketSort(float arr[], int size) {
-    if (size <= 0) return;
-    // Find the maximum and minimum elements in the array
-    float maxElement = arr[0], minElement = arr[0];
-    for (int i = 1; i < size; i++) {
-        if (arr[i] > maxElement) maxElement = arr[i];
-        if (arr[i] < minElement) minElement = arr[i];
+ void insertionSort(float bucket[], int size) {
+    for (int i = 1; i < size; ++i) {
+        float key = bucket[i];
+        int j = i - 1;
+        while (j >= 0 && bucket[j] > key) {
+            bucket[j + 1] = bucket[j];
+            j--;
+        }
+        bucket[j + 1] = key;
     }
-    // Number of buckets
-    int bucketCount = size;
-    float range = maxElement - minElement;
-    if (range == 0) return;  // Avoid division by zero
-    // Create buckets (arrays)
-    float buckets[bucketCount][size];  // 2D array for buckets
-    int bucketSizes[bucketCount] = {0}; // Array to track sizes of each bucket
-    // Place array elements in different buckets
-    for (int i = 0; i < size; i++) {
-        int index = (arr[i] - minElement) * (bucketCount - 1) / range;
-        buckets[index][bucketSizes[index]++] = arr[i];
+}
+void bucketSort(float arr[], int n) {
+    const int numBuckets = n;
+    const int maxBucketSize = n;
+    float b[numBuckets][maxBucketSize];
+    int bucketSizes[numBuckets] = {0};
+
+    // Put array elements in different buckets
+    for (int i = 0; i < n; i++) {
+        int bi = numBuckets * arr[i];
+        b[bi][bucketSizes[bi]++] = arr[i];
     }
+
     // Sort individual buckets using insertion sort
-    for (int i = 0; i < bucketCount; i++) {
+    for (int i = 0; i < numBuckets; i++) {
         if (bucketSizes[i] > 0) {
-            // Insertion Sort for each bucket
-            for (int j = 1; j < bucketSizes[i]; j++) {
-                float key = buckets[i][j];
-                int k = j - 1;
-                while (k >= 0 && buckets[i][k] > key) {
-                    buckets[i][k + 1] = buckets[i][k];
-                    k--;
-                }
-                buckets[i][k + 1] = key;
-            }
+            insertionSort(b[i], bucketSizes[i]);
         }
     }
-    // Concatenate all sorted buckets
+    // Concatenate all buckets into arr[]
     int index = 0;
-    for (int i = 0; i < bucketCount; i++) {
+    for (int i = 0; i < numBuckets; i++) {
         for (int j = 0; j < bucketSizes[i]; j++) {
-            arr[index++] = buckets[i][j];
+            arr[index++] = b[i][j];
         }
     }
 }
